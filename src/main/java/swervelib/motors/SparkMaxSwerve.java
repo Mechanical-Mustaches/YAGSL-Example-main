@@ -20,7 +20,7 @@ import swervelib.parser.PIDFConfig;
 public class SparkMaxSwerve extends SwerveMotor
 {
 
-  /**
+  /**   
    * SparkMAX Instance.
    */
   public  CANSparkMax           motor;
