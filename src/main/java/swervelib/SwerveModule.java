@@ -231,8 +231,8 @@ public class SwerveModule
       velocity = driveMotor.getVelocity();
       azimuth = Rotation2d.fromDegrees(angleMotor.getPosition());
       omega = Math.toRadians(angleMotor.getVelocity());
-    } else
-    {
+    } else    
+    { 
       return simModule.getState();
     }
     return new SwerveModuleState(velocity, azimuth);
