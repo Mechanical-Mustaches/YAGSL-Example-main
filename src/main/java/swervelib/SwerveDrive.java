@@ -131,6 +131,7 @@ public class SwerveDrive
     kinematics = new SwerveDriveKinematics(config.moduleLocationsMeters);
     odometryThread = new Notifier(this::updateOdometry);
 
+
     // Create an integrator for angle if the robot is being simulated to emulate an IMU
     // If the robot is real, instantiate the IMU instead.
     if (SwerveDriveTelemetry.isSimulation)
