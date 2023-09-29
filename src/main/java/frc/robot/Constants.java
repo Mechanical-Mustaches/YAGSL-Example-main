@@ -40,13 +40,15 @@ public final class Constants
 
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
+    public static final double SPEED = -0.9;
   }
 
   public static class OperatorConstants
   {
 
-    // Joystick Deadband
+    // Joystick Deadband --> 0.01
     public static final double LEFT_X_DEADBAND = 0.01;
     public static final double LEFT_Y_DEADBAND = 0.01;
+    public static final double speed = -0.9;
   }
 }
