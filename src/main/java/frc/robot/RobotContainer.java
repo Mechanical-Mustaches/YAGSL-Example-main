@@ -59,7 +59,7 @@ public class RobotContainer
         drivebase,
         () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(4), () -> true, false, true);
+        () -> -driverXbox.getRawAxis(4), () -> true, false, true);
         // () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         // () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         // () -> -driverController.getRawAxis(4), () -> true, false, true);
@@ -78,9 +78,9 @@ public class RobotContainer
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    new JoystickButton(driverXbox, 7).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 4).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
 
 
   }
