@@ -20,10 +20,13 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import frc.robot.commands.swervedrive.auto.AutoBalanceCommand;
+
 import frc.robot.Constants.Auton;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.util.HashMap;
 import java.util.List;
+
 
 public final class Autos
 {
@@ -98,10 +101,10 @@ public final class Autos
   }
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(0.5, 0.25));
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 3));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("intakeout", new PrintCommand("Intakeout"));
-    eventMap.put("balance", AutoBalanceCommand.AutoBalanceCommand(aBuilder));
+    eventMap.put("balance", new AutoBalanceCommand(aBuilder));
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,
