@@ -8,9 +8,12 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -22,6 +25,10 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -41,6 +48,8 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
 
+  private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -48,6 +57,7 @@ public class RobotContainer
   {
     // Configure the trigger bindings
     configureBindings();
+    initializeAutoChooser();
  
     TeleopDrive simClosedFieldRel = new TeleopDrive(
       drivebase,
@@ -90,11 +100,27 @@ public class RobotContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
-    // An example command will be run in autonomous
+
+
+  // public Command getAutonomousCommand()
+  // {
+  //   // An example command will be run in autonomous
+  //   return Autos.exampleAuto(drivebase);
+  // }
+
+  public Command getAutoPaths(){
+    PathPlannerTrajectory path2 = PathPlanner.loadPath("New Path", new PathConstraints(4,2));
     return Autos.exampleAuto(drivebase);
   }
+
+  private void initializeAutoChooser() {
+    m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
+    m_autoChooser.addOption("ExampleAuto", Autos.exampleAuto(drivebase));
+    
+    SmartDashboard.putData("Auto Selector", m_autoChooser);
+
+  }
+ 
 
   public void setDriveMode()
   {
