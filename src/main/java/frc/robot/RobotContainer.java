@@ -48,7 +48,7 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
 
-  private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+  private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -108,18 +108,20 @@ public class RobotContainer
   //   return Autos.exampleAuto(drivebase);
   // }
 
-  public Command getAutoPaths(){
-    PathPlannerTrajectory path2 = PathPlanner.loadPath("New Path", new PathConstraints(4,2));
-    return Autos.exampleAuto(drivebase);
-  }
-
-  private void initializeAutoChooser() {
-    m_autoChooser.setDefaultOption("Do Nothing", new WaitCommand(0));
-    m_autoChooser.addOption("ExampleAuto", Autos.exampleAuto(drivebase));
+  private String initializeAutoChooser() {
+    m_autoChooser.setDefaultOption("path1", "path1");
+    m_autoChooser.addOption("path2", "path2");
+    m_autoChooser.addOption("path3", "path3");
     
     SmartDashboard.putData("Auto Selector", m_autoChooser);
-
+    return m_autoChooser.getSelected();
   }
+
+  public Command getAutoPaths(){
+    return Autos.autoBuilderBase(drivebase, initializeAutoChooser());
+  }
+
+  
  
 
   public void setDriveMode()
