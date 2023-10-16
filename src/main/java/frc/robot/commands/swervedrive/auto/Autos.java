@@ -97,9 +97,12 @@ public final class Autos
     return Commands.sequence(new FollowTrajectory(swerve, example, true));
   }
 
-  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, PathPlannerTrajectory autoPath){
+
+  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 3));
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("marker1", new PrintCommand("Passed marker 1"));
+    eventMap.put("intakeout", new PrintCommand("Intakeout"));
+    eventMap.put("balance", new AutoBalanceCommand(aBuilder));
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,
@@ -111,7 +114,7 @@ public final class Autos
       false,
       aBuilder
   );
-  return Commands.sequence(autoBuilder.fullAuto(autoPath));
+  return Commands.sequence(autoBuilder.fullAuto(master));
 
   }
 
