@@ -26,9 +26,24 @@ import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
+//PathPlanner Imports
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+
+//Command Imports
+import frc.robot.commands.ArmPositions.*;
+import frc.robot.commands.Compressor.*;
+import frc.robot.commands.IntakeArm.*;
+import frc.robot.commands.IntakeFloor.*;
+import frc.robot.commands.Conveyor.*;
+
+//Subsystem Imports
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ArmIntake;
+import frc.robot.subsystems.Compressor;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.FloorIntake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -47,8 +62,15 @@ public class RobotContainer
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
+  XboxController gunnerXbox = new XboxController(1);
 
   private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+
+  Arm arm = new Arm();
+  ArmIntake armIntake = new ArmIntake();
+  Compressor compressor = new Compressor();
+  Conveyor conveyor = new Conveyor();
+  FloorIntake floorIntake = new FloorIntake();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,13 +85,13 @@ public class RobotContainer
       drivebase,
        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-       () -> driverXbox.getRawAxis(4), () -> true, false, true); //2
+       () -> driverXbox.getRawAxis(4), () -> true, false, false); //2
 
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
         () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRawAxis(4), () -> true, false, true);
+        () -> -driverXbox.getRawAxis(4), () -> true, false, false);
         // () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         // () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         // () -> -driverController.getRawAxis(4), () -> true, false, true);
@@ -84,6 +106,11 @@ public class RobotContainer
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
+
+ 
+
+
+
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -91,6 +118,40 @@ public class RobotContainer
     new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+
+    /*
+     * DRIVER BUTTON CONTROLS
+     */
+
+     JoystickButton d_A_Button = new JoystickButton(driverXbox, 1);
+     JoystickButton d_B_Button = new JoystickButton(driverXbox, 2);
+     JoystickButton d_X_Button = new JoystickButton(driverXbox, 3);
+     JoystickButton d_Y_Button = new JoystickButton(driverXbox, 4);
+
+     
+     /*
+      * GUNNER BUTTON CONTROLS
+      */
+    
+      JoystickButton g_OneButt = new JoystickButton(gunnerXbox, 1);
+      JoystickButton g_TwoButt = new JoystickButton(gunnerXbox, 2);
+      JoystickButton g_ThreeButt = new JoystickButton(gunnerXbox, 3);
+      JoystickButton g_FourButt = new JoystickButton(gunnerXbox, 4);
+      JoystickButton g_FiveButt = new JoystickButton(gunnerXbox, 5);
+      JoystickButton g_SixButt = new JoystickButton(gunnerXbox, 6);
+      JoystickButton g_SevenButt = new JoystickButton(gunnerXbox, 7);
+      JoystickButton g_EightButt = new JoystickButton(gunnerXbox, 8);
+      JoystickButton g_NineButt = new JoystickButton(gunnerXbox, 9);
+      JoystickButton g_TenButt = new JoystickButton(gunnerXbox, 10);
+      JoystickButton g_ElevenButt = new JoystickButton(gunnerXbox, 11);
+      JoystickButton g_TwelveButt = new JoystickButton(gunnerXbox, 12);
+
+      g_OneButt.onTrue(getAutoPaths());
+      g_OneButt.onFalse(getAutoPaths());
+
+      g_TwoButt.onTrue(getAutoPaths());
+      g_TwoButt.onFalse(getAutoPaths());
+
 
 
   }
