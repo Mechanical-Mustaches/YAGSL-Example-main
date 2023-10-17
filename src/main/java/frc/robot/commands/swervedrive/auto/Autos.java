@@ -21,6 +21,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.robot.Constants.Auton;
+import frc.robot.commands.ArmPositions.ACollapse;
+import frc.robot.commands.ArmPositions.AConeHigh;
+import frc.robot.commands.IntakeArm.IAConeExtract;
+import frc.robot.commands.IntakeArm.IAStop;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ArmIntake;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +38,7 @@ public final class Autos
    * April Tag field layout.
    */
   private static AprilTagFieldLayout aprilTagField = null;
+
 
   private Autos()
   {
@@ -98,11 +105,15 @@ public final class Autos
   }
 
 
-  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 3));
+  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake){
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2, 1));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("intakeout", new PrintCommand("Intakeout"));
     eventMap.put("balance", new AutoBalanceCommand(aBuilder));
+    eventMap.put("highcone", new AConeHigh(arm));
+    eventMap.put("coneOut", new IAConeExtract(armIntake));
+    eventMap.put("IAStop", new IAStop(armIntake));
+    eventMap.put("armDown", new ACollapse(arm));
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,

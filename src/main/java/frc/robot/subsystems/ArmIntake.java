@@ -7,7 +7,7 @@ import com.revrobotics.RelativeEncoder;
 
 public class ArmIntake extends SubsystemBase {
     private CANSparkMax intakeMotor = new CANSparkMax(11, MotorType.kBrushless);
-    RelativeEncoder sir_eyespy_coder;
+    RelativeEncoder encoder;
     private int intakeCurrentLimit = 25;
     private double intakeOutputPower = 1.0;
     private double intakeCubePower = 0.4;
@@ -18,8 +18,8 @@ public class ArmIntake extends SubsystemBase {
 
     
     public ArmIntake(){
-        sir_eyespy_coder = intakeMotor.getEncoder();
-        sir_eyespy_coder.setPosition(0);
+        encoder = intakeMotor.getEncoder();
+        encoder.setPosition(0);
     }
 
     public void setIntakeMotor(double percent, int amps){
@@ -27,7 +27,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public void resetPosition(){
-        sir_eyespy_coder.setPosition(0.0);
+        encoder.setPosition(0.0);
     }
 
     public void stopArmIntake(){
@@ -37,7 +37,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmIntakeStopped(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = encoder.getPosition();
         if (counter++ % 10 == 0) {
             System.out.println("Intake arm position: " + position);
         }
@@ -56,7 +56,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmIntakingCone(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = encoder.getPosition();
         if(position < -40){
             return true;
         }
@@ -67,11 +67,14 @@ public class ArmIntake extends SubsystemBase {
         intakePower = intakeOutputPower;
         intakeAmps = -intakeCurrentLimit;
         setIntakeMotor(intakePower, intakeAmps);
+        System.out.println("isExtractingCone position: " + encoder.getPosition());
+
     }
 
     public boolean isArmExtractingCone(){
-        double position = sir_eyespy_coder.getPosition();
-        if(position > 42){
+        double position = encoder.getPosition();
+        System.out.println("isExtractingCone position: " + position);
+        if(position > 30){
             return true;
         }
         return false;
@@ -90,7 +93,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmIntakingCube(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = encoder.getPosition();
         if(position > 22){
             return true;
         }
@@ -104,7 +107,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmExtractingCube(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = encoder.getPosition();
         if(position > 60){
             return true;
         }

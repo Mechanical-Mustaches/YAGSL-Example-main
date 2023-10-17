@@ -89,9 +89,9 @@ public class RobotContainer
 
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
-        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRawAxis(4), () -> true, false, false);
+        () -> -MathUtil.applyDeadband(driverXbox.getRightY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRawAxis(0), () -> true, false, false);
         // () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         // () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         // () -> -driverController.getRawAxis(4), () -> true, false, true);
@@ -180,7 +180,7 @@ public class RobotContainer
   }
 
   public Command getAutoPaths(){
-    return Autos.autoBuilderBase(drivebase, initializeAutoChooser());
+    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake);
   }
  
 

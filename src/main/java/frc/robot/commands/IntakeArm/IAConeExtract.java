@@ -15,8 +15,18 @@ public class IAConeExtract extends CommandBase{
         armIntake.extractCone();
     }
 
+    @Override
+    public void initialize(){
+        armIntake.resetPosition();
+    }
+
     public boolean isFinished(){
-        return armIntake.isArmExtractingCone();
+        boolean finished = armIntake.isArmExtractingCone();
+        if(finished){
+            System.out.println(this.getClass().getName() + " is Finished");
+            armIntake.stopArmIntake();
+        }
+        return finished;
     }
 
 
