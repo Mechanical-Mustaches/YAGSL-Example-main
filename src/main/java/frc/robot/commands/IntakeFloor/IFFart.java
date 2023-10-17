@@ -1,6 +1,5 @@
 package frc.robot.commands.IntakeFloor;
 
-import edu.wpi.first.networktables.FloatArrayEntry;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.FloorIntake;
 
