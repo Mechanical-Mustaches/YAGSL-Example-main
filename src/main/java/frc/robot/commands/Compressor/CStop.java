@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Compressor;
 
 
-public class CStop extends CommandBase{
+public class CSTOP extends CommandBase{
     Compressor compressor;
 
-    public CStop(Compressor compressor){
+    public CSTOP(Compressor compressor){
         addRequirements(compressor);
         this.compressor = compressor;
     }

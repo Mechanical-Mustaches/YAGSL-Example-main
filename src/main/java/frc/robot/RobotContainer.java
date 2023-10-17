@@ -115,18 +115,20 @@ public class RobotContainer
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
-
     /*
      * DRIVER BUTTON CONTROLS
      */
 
-     JoystickButton d_A_Button = new JoystickButton(driverXbox, 1);
-     JoystickButton d_B_Button = new JoystickButton(driverXbox, 2);
-     JoystickButton d_X_Button = new JoystickButton(driverXbox, 3);
-     JoystickButton d_Y_Button = new JoystickButton(driverXbox, 4);
+    new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+ 
+    JoystickButton d_leftBumper = new JoystickButton(driverXbox, 6);
+
+    d_leftBumper.onTrue(new IFCollect(floorIntake));
+    d_leftBumper.onTrue(new CExtend(compressor));
+    d_leftBumper.onFalse(new IFStop(floorIntake));
+    d_leftBumper.onFalse(new CSTOP(compressor));
 
      
      /*
@@ -146,13 +148,46 @@ public class RobotContainer
       JoystickButton g_ElevenButt = new JoystickButton(gunnerXbox, 11);
       JoystickButton g_TwelveButt = new JoystickButton(gunnerXbox, 12);
 
-      g_OneButt.onTrue(getAutoPaths());
-      g_OneButt.onFalse(getAutoPaths());
+      /*
+      * CONE OUTPUTS
+      */
 
-      g_TwoButt.onTrue(getAutoPaths());
-      g_TwoButt.onFalse(getAutoPaths());
+      g_OneButt.onTrue(new AConeHigh(arm));
 
- 
+      g_FiveButt.onTrue(new AConeMid(arm));
+
+      g_NineButt.onTrue(new AConeFloor(arm));
+
+      g_ThreeButt.onTrue(new AConeHuman(arm));
+      g_ThreeButt.onTrue(new IAConeIntake(armIntake));
+      g_ThreeButt.onFalse(new IAStop(armIntake));
+
+      g_SevenButt.onTrue(new IAConeExtract(armIntake));
+      g_SevenButt.onFalse(new IAStop(armIntake));
+
+  
+      /*
+       * CUBE-Y DOOBY DOO OUTPUTS
+       */
+        
+      g_TwoButt.onTrue(new ACubeHigh(arm));
+
+      g_SixButt.onTrue(new ACubeMid(arm));
+
+      g_TenButt.onTrue(new ACubeFloor(arm));
+
+      g_FourButt.onTrue(new ACubeHuman(arm));
+      g_FourButt.onTrue(new IACubeIntake(armIntake));
+      g_FourButt.onFalse(new IAStop(armIntake));
+
+      g_EightButt.onTrue(new IACubeExtract(armIntake));
+      g_EightButt.onFalse(new IAStop(armIntake));
+
+      g_TwelveButt.onTrue(new ACubeConvey(arm));
+      g_TwelveButt.onTrue(new IACubeIntake(armIntake));
+      g_TwelveButt.onTrue(new CGo(conveyor));
+      g_TwelveButt.onFalse(new CStopp(conveyor));
+      g_TwelveButt.onFalse(new IAStop(armIntake));
 
   }
 
