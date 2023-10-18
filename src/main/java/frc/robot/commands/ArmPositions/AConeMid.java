@@ -12,7 +12,7 @@ public class AConeMid extends CommandBase {
     }
 
     public void execute(){
-        arm.isConeMidSetpoint();
+        arm.armMidCone();
     }
 
     public boolean isFinsihed(){

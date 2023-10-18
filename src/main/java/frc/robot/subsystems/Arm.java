@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase{
     private CANSparkMax armMotor = new CANSparkMax(10, MotorType.kBrushless);
-    private double armOutputPower = 0.2;
+    private double armOutputPower = 0.025;
     private double armPower;
     SparkMaxPIDController PID;
     private double kDt = 0.02;
     RelativeEncoder sir_eyespy_coder;
     TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(300, 150);
-    ProfiledPIDController controller = new ProfiledPIDController(0.05, 0.02, 0, m_Constraints, kDt);
+    ProfiledPIDController controller = new ProfiledPIDController(0.015, 0, 0, m_Constraints, kDt);
 
     public Arm(){
         armMotor.restoreFactoryDefaults();
@@ -50,11 +50,11 @@ public class Arm extends SubsystemBase{
     }
 
     public void armCollapse(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), -1));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 3));
     }
 
     public boolean isCollapseing(){
-        if(sir_eyespy_coder.getPosition() < 0.2){
+        if(sir_eyespy_coder.getPosition() < 4){
             return true;
         }
         return false;
@@ -65,7 +65,7 @@ public class Arm extends SubsystemBase{
      */
 
     public void armHighCone(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 36));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 32));
     }
 
     public boolean isConeHighSetPoint(){
@@ -76,7 +76,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void armMidCone(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 13));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 20));
     }
 
     public boolean isConeMidSetpoint(){
@@ -139,7 +139,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void armHumanCube(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(),31)); 
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 31)); 
     }
 
     public void armConveyCube(){

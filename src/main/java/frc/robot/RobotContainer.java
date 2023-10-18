@@ -152,42 +152,51 @@ public class RobotContainer
       * CONE OUTPUTS
       */
 
-      g_OneButt.onTrue(new AConeHigh(arm));
+      g_SevenButt.onTrue(new AConeHigh(arm));
+      g_SevenButt.onFalse(new ACollapse(arm));
 
-      g_FiveButt.onTrue(new AConeMid(arm));
+      g_EightButt.onTrue(new AConeMid(arm));
+      g_EightButt.onFalse(new ACollapse(arm));
 
       g_NineButt.onTrue(new AConeFloor(arm));
+      g_NineButt.onFalse(new ACollapse(arm));
 
-      g_ThreeButt.onTrue(new AConeHuman(arm));
-      g_ThreeButt.onTrue(new IAConeIntake(armIntake));
-      g_ThreeButt.onFalse(new IAStop(armIntake));
+      g_TenButt.onTrue(new AConeHuman(arm));
+      g_TenButt.onTrue(new IAConeIntake(armIntake));
+      g_TenButt.onFalse(new IAStop(armIntake));
+      g_TenButt.onFalse(new ACollapse(arm));
 
-      g_SevenButt.onTrue(new IAConeExtract(armIntake));
-      g_SevenButt.onFalse(new IAStop(armIntake));
+      g_ElevenButt.onTrue(new IAConeExtract(armIntake));
+      g_ElevenButt.onFalse(new IAStop(armIntake));
 
   
       /*
        * CUBE-Y DOOBY DOO OUTPUTS
        */
         
-      g_TwoButt.onTrue(new ACubeHigh(arm));
+      g_OneButt.onTrue(new ACubeHigh(arm));
+      g_OneButt.onFalse(new ACollapse(arm));
 
-      g_SixButt.onTrue(new ACubeMid(arm));
+      g_TwoButt.onTrue(new ACubeMid(arm));
+      g_TwoButt.onTrue(new ACollapse(arm));
 
-      g_TenButt.onTrue(new ACubeFloor(arm));
+      g_ThreeButt.onTrue(new ACubeFloor(arm));
+      g_ThreeButt.onFalse(new ACollapse(arm));
 
       g_FourButt.onTrue(new ACubeHuman(arm));
       g_FourButt.onTrue(new IACubeIntake(armIntake));
       g_FourButt.onFalse(new IAStop(armIntake));
+      g_FourButt.onFalse(new ACollapse(arm));
 
-      g_EightButt.onTrue(new IACubeExtract(armIntake));
-      g_EightButt.onFalse(new IAStop(armIntake));
+      g_FiveButt.onTrue(new IACubeExtract(armIntake));
+      g_FiveButt.onFalse(new IAStop(armIntake));
 
-      g_TwelveButt.onTrue(new ACubeConvey(arm));
-      g_TwelveButt.onTrue(new IACubeIntake(armIntake));
-      g_TwelveButt.onTrue(new CGo(conveyor));
-      g_TwelveButt.onFalse(new CStopp(conveyor));
-      g_TwelveButt.onFalse(new IAStop(armIntake));
+      g_SixButt.onTrue(new ACubeConvey(arm));
+      g_SixButt.onTrue(new IACubeIntake(armIntake));
+      g_SixButt.onTrue(new CGo(conveyor));
+      g_SixButt.onFalse(new CStopp(conveyor));
+      g_SixButt.onFalse(new IAStop(armIntake));
+
 
   }
 
