@@ -43,18 +43,18 @@ public class Arm extends SubsystemBase{
         armPower = -armOutputPower;
         setArmMotor(armPower);
     }
-
+ 
     public void armHold(){
         armPower = 0;
         setArmMotor(armPower);
     }
 
     public void armCollapse(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 3));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 2));
     }
 
     public boolean isCollapseing(){
-        if(sir_eyespy_coder.getPosition() < 4){
+        if(sir_eyespy_coder.getPosition() < 3){
             return true;
         }
         return false;
@@ -69,7 +69,7 @@ public class Arm extends SubsystemBase{
     }
 
     public boolean isConeHighSetPoint(){
-        if(sir_eyespy_coder.getPosition() > 26){
+        if(sir_eyespy_coder.getPosition() > 26){ 
             return true;
         }
        return false;
@@ -98,7 +98,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void armHumanCone(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 34));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 32));
     }
 
     /*
@@ -106,7 +106,7 @@ public class Arm extends SubsystemBase{
      */
 
     public void armCubeHigh(){
-       armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 38));
+       armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 32));
     }
 
     public boolean isHighCubeSetpoint(){
@@ -121,7 +121,7 @@ public class Arm extends SubsystemBase{
     }
 
     public boolean isMidCubeSetpoint(){
-        if(sir_eyespy_coder.getPosition() > 13){
+        if(sir_eyespy_coder.getPosition() > 23){
             return true;
         }
         return false;

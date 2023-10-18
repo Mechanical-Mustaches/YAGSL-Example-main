@@ -74,7 +74,7 @@ public class ArmIntake extends SubsystemBase {
     public boolean isArmExtractingCone(){
         double position = encoder.getPosition();
         System.out.println("isExtractingCone position: " + position);
-        if(position > 30){
+        if(position > 35){
             return true;
         }
         return false;

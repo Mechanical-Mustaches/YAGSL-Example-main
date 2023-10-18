@@ -23,10 +23,19 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.robot.Constants.Auton;
 import frc.robot.commands.ArmPositions.ACollapse;
 import frc.robot.commands.ArmPositions.AConeHigh;
+import frc.robot.commands.ArmPositions.ACubeHigh;
+import frc.robot.commands.Compressor.CExtend;
+import frc.robot.commands.Compressor.CRetract;
 import frc.robot.commands.IntakeArm.IAConeExtract;
+import frc.robot.commands.IntakeArm.IACubeExtract;
 import frc.robot.commands.IntakeArm.IAStop;
+import frc.robot.commands.IntakeFloor.IFCollect;
+import frc.robot.commands.IntakeFloor.IFFart;
+import frc.robot.commands.IntakeFloor.IFStop;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmIntake;
+import frc.robot.subsystems.Compressor;
+import frc.robot.subsystems.FloorIntake;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.util.HashMap;
 import java.util.List;
@@ -105,15 +114,21 @@ public final class Autos
   }
 
 
-  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2, 1));
+  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, Compressor compressor, FloorIntake floorIntake){
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(3, 3));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("intakeout", new PrintCommand("Intakeout"));
-    eventMap.put("balance", new AutoBalanceCommand(aBuilder));
-    eventMap.put("highcone", new AConeHigh(arm));
+    eventMap.put("balance", new AutoBalanceCommand(aBuilder)); //Ajaxs
+    eventMap.put("highCone", new AConeHigh(arm));
+    eventMap.put("highCube", new ACubeHigh(arm));
     eventMap.put("coneOut", new IAConeExtract(armIntake));
+    eventMap.put("cubeOut", new IACubeExtract(armIntake));
     eventMap.put("IAStop", new IAStop(armIntake));
     eventMap.put("armDown", new ACollapse(arm));
+    eventMap.put("floorCompressorOut", new CExtend(compressor));
+    eventMap.put("floorwheelOut", new IFCollect(floorIntake));
+    eventMap.put("floorCompressorIn", new CRetract(compressor));
+    eventMap.put("floorwheelStop", new IFStop(floorIntake));
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,

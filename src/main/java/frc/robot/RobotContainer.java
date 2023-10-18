@@ -128,7 +128,7 @@ public class RobotContainer
     d_leftBumper.onTrue(new IFCollect(floorIntake));
     d_leftBumper.onTrue(new CExtend(compressor));
     d_leftBumper.onFalse(new IFStop(floorIntake));
-    d_leftBumper.onFalse(new CSTOP(compressor));
+    d_leftBumper.onFalse(new CRetract(compressor));
 
      
      /*
@@ -224,7 +224,7 @@ public class RobotContainer
   }
 
   public Command getAutoPaths(){
-    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake);
+    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, compressor, floorIntake);
   }
  
 

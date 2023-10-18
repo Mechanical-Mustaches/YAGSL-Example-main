@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 3.9195534801326013,
-        "y": 4.430637237342851
+        "x": 2.2523549320602916,
+        "y": 4.910242299117077
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.627541904656459,
-        "y": 4.4077989010678875
+        "x": 2.9603433565841484,
+        "y": 4.8874039628421135
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -16,43 +16,81 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "highCone",
+          "coneOut"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 4.85592526740609,
-        "y": 5.229979006966562
+        "x": 3.5084634271832646,
+        "y": 6.16635079424005
       },
       "prevControl": {
-        "x": 4.947278612505944,
-        "y": 4.624763095680038
+        "x": 3.5998167722831167,
+        "y": 4.738954777054853
       },
-      "nextControl": null,
-      "holonomicAngle": 180.0,
-      "isReversal": false,
+      "nextControl": {
+        "x": 3.5998167722831167,
+        "y": 4.738954777054853
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 2.0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.2751932683352547,
+        "y": 4.122319697630848
+      },
+      "prevControl": {
+        "x": 3.9081343119951195,
+        "y": 4.076643025080922
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "floorCompressorIn",
+          "floorwheelStop"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "maxVelocity": null,
+  "maxVelocity": 3.0,
   "maxAcceleration": 3.0,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.0,
+      "position": 0.07999999999999133,
       "names": [
-        "marker1"
+        "armDown"
+      ]
+    },
+    {
+      "position": 1.1054545454545446,
+      "names": [
+        "floorCompressorOut",
+        "floorwheelOut"
       ]
     }
   ]
