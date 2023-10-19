@@ -224,7 +224,7 @@ public class RobotContainer
   }
 
   public Command getAutoPaths(){
-    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, compressor, floorIntake);
+    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, compressor, floorIntake, conveyor);
   }
  
 

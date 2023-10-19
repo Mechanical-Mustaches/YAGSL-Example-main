@@ -5,6 +5,8 @@ import frc.robot.subsystems.ArmIntake;
 import frc.robot.subsystems.Conveyor;
 
 public class ConveyArmCombo extends CommandBase {
+    private boolean isFinished = false;
+    private int m_autoPlease = 0;
     ArmIntake armIntake;
     Conveyor conveyor;
 
@@ -22,9 +24,21 @@ public class ConveyArmCombo extends CommandBase {
 
 
     public void execute(){
-        conveyor.cubeyMove();
-        armIntake.cubeyIntake(); 
+        conveyor.moveConCube();
+        armIntake.cubeyMovey();
+        isFinished = true;
+      
+       
     }
+
+    public boolean isFinished(){
+        armIntake.cubeyIntake();
+        conveyor.cubeyMove();
+        return isFinished;
+
+    }
+
+    
 
     
     

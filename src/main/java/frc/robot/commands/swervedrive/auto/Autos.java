@@ -27,6 +27,7 @@ import frc.robot.commands.ArmPositions.AConeHigh;
 import frc.robot.commands.ArmPositions.ACubeHigh;
 import frc.robot.commands.Compressor.CExtend;
 import frc.robot.commands.Compressor.CRetract;
+import frc.robot.commands.Conveyor.ConveyArmCombo;
 import frc.robot.commands.IntakeArm.IAConeExtract;
 import frc.robot.commands.IntakeArm.IACubeExtract;
 import frc.robot.commands.IntakeArm.IAStop;
@@ -36,6 +37,7 @@ import frc.robot.commands.IntakeFloor.IFStop;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmIntake;
 import frc.robot.subsystems.Compressor;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.FloorIntake;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.util.HashMap;
@@ -115,7 +117,7 @@ public final class Autos
   }
 
 
-  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, Compressor compressor, FloorIntake floorIntake){
+  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, Compressor compressor, FloorIntake floorIntake, Conveyor conveyor){
     List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 4.5));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("intakeout", new PrintCommand("Intakeout"));
@@ -130,6 +132,7 @@ public final class Autos
     eventMap.put("floorwheelOut", new IFCollect(floorIntake));
     eventMap.put("floorCompressorIn", new CRetract(compressor));
     eventMap.put("floorwheelStop", new IFStop(floorIntake));
+    eventMap.put("ConveyorArmCombo", new ConveyArmCombo(armIntake, conveyor));
 
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,

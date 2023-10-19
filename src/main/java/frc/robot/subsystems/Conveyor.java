@@ -24,6 +24,10 @@ public class Conveyor extends SubsystemBase {
         
     }
 
+    public void moveConCube(){
+        conveyMotor.set(0.4);
+    }
+
     public boolean cubeyMove(){
         double position = sir_eyespy_coder.getPosition();
         if(position > 10){

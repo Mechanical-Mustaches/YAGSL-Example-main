@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.5,
-        "y": 5.0
+        "x": 3.80514480743926,
+        "y": 4.931615943991983
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2083566890088475,
-        "y": 5.0
+        "x": 4.513501496448105,
+        "y": 4.931615943991983
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -16,45 +16,23 @@
       "isLocked": true,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "sequential",
+        "names": [
+          "floorwheelOut",
+          "floorCompressorOut"
+        ],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 3.5861734431307353,
-        "y": 4.160455921861963
+        "x": 5.621009532617356,
+        "y": 4.921661467254559
       },
       "prevControl": {
-        "x": 3.709939866435554,
-        "y": 4.864972485289389
-      },
-      "nextControl": {
-        "x": 3.709939866435554,
-        "y": 4.864972485289389
-      },
-      "holonomicAngle": -0.5906572146467236,
-      "isReversal": true,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "sequential",
-        "waitBehavior": "none",
-        "waitTime": 2.0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 1.5583081997517927,
-        "y": 4.9887389085942075
-      },
-      "prevControl": {
-        "x": 2.3294682218818137,
-        "y": 4.979218414493836
+        "x": 5.278271745004014,
+        "y": 4.921661467254559
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -63,15 +41,25 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "ConveyorArmCombo"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
-        "waitTime": 0
+        "waitTime": 3.0
       }
     }
   ],
   "maxVelocity": 4.0,
   "maxAcceleration": 4.5,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 0.6109090909090726,
+      "names": [
+        "floorwheelStop",
+        "floorCompressorIn"
+      ]
+    }
+  ]
 }
