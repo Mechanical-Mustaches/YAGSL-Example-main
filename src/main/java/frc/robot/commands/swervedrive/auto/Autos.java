@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.robot.Constants.Auton;
 import frc.robot.commands.ArmPositions.ACollapse;
+import frc.robot.commands.ArmPositions.AConeFloor;
 import frc.robot.commands.ArmPositions.AConeHigh;
 import frc.robot.commands.ArmPositions.ACubeHigh;
 import frc.robot.commands.Compressor.CExtend;
@@ -115,7 +116,7 @@ public final class Autos
 
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, Compressor compressor, FloorIntake floorIntake){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(3, 3));
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 4.5));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("intakeout", new PrintCommand("Intakeout"));
     eventMap.put("balance", new AutoBalanceCommand(aBuilder)); //Ajaxs
@@ -137,7 +138,7 @@ public final class Autos
       new PIDConstants(Auton.angleAutoPID.p, Auton.angleAutoPID.i, Auton.angleAutoPID.d),
       aBuilder::setChassisSpeeds,
       eventMap,
-      false,
+      true,
       aBuilder
   );
   return Commands.sequence(autoBuilder.fullAuto(master));

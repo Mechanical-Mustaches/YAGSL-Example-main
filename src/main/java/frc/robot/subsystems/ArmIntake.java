@@ -22,6 +22,19 @@ public class ArmIntake extends SubsystemBase {
         encoder.setPosition(0);
     }
 
+    public int setArmEncoderPos(int pos){
+        encoder.setPosition(pos);
+        return pos;
+    }
+
+    public boolean cubeyIntake(){
+        double position = encoder.getPosition();
+        if(position > 30){
+            return true;
+        }
+        return false;
+    }
+
     public void setIntakeMotor(double percent, int amps){
         intakeMotor.set(percent);
     }

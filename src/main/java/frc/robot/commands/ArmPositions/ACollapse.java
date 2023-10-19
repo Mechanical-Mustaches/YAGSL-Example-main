@@ -13,6 +13,7 @@ public class ACollapse extends CommandBase {
 
     public void execute(){
         arm.armCollapse();
+        
     }
 
     public boolean isFinished(){

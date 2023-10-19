@@ -15,6 +15,28 @@ public class Conveyor extends SubsystemBase {
         sir_eyespy_coder.setPosition(0);
     }
 
+    /*
+     * Autonomous Commands
+     */
+    public int setEncoderPos(int pos){
+        sir_eyespy_coder.setPosition(pos);
+        return pos;
+        
+    }
+
+    public boolean cubeyMove(){
+        double position = sir_eyespy_coder.getPosition();
+        if(position > 10){
+            return true;
+        }
+        return false;
+    }
+
+
+    /*
+     * Teleop Commands
+     */
+
     public void goConveyor(){
         conveyMotor.set(speed);
     }

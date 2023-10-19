@@ -17,7 +17,7 @@ public class Arm extends SubsystemBase{
     private double kDt = 0.02;
     RelativeEncoder sir_eyespy_coder;
     TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(300, 150);
-    ProfiledPIDController controller = new ProfiledPIDController(0.015, 0, 0, m_Constraints, kDt);
+    ProfiledPIDController controller = new ProfiledPIDController(0.025, 0.005, 0, m_Constraints, kDt);
 
     public Arm(){
         armMotor.restoreFactoryDefaults();
@@ -50,11 +50,11 @@ public class Arm extends SubsystemBase{
     }
 
     public void armCollapse(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 2));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 3));
     }
 
     public boolean isCollapseing(){
-        if(sir_eyespy_coder.getPosition() < 3){
+        if(sir_eyespy_coder.getPosition() < 6){
             return true;
         }
         return false;
@@ -69,14 +69,14 @@ public class Arm extends SubsystemBase{
     }
 
     public boolean isConeHighSetPoint(){
-        if(sir_eyespy_coder.getPosition() > 26){ 
+        if(sir_eyespy_coder.getPosition() > 31){ 
             return true;
         }
        return false;
     }
 
     public void armMidCone(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 20));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 15));
     }
 
     public boolean isConeMidSetpoint(){
@@ -87,7 +87,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void armFloorCone(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 10));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 5));
     }
 
     public boolean isConeFloorSetpoint(){
