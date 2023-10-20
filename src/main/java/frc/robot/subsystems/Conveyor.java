@@ -13,7 +13,14 @@ public class Conveyor extends SubsystemBase {
     public Conveyor(){
         sir_eyespy_coder = conveyMotor.getEncoder();
         sir_eyespy_coder.setPosition(0);
+        System.out.println(sir_eyespy_coder.getPosition());
     }
+    @Override
+    public void periodic(){
+       System.out.println(sir_eyespy_coder.getPosition());
+    }
+
+
 
     /*
      * Autonomous Commands
@@ -30,7 +37,7 @@ public class Conveyor extends SubsystemBase {
 
     public boolean cubeyMove(){
         double position = sir_eyespy_coder.getPosition();
-        if(position > 10){
+        if(position > 37){
             return true;
         }
         return false;

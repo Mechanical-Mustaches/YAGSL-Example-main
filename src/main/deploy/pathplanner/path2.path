@@ -7,8 +7,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.513501496448105,
-        "y": 4.931615943991983
+        "x": 4.513124253265536,
+        "y": 4.9085009455906805
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -31,8 +31,8 @@
         "y": 4.921661467254559
       },
       "prevControl": {
-        "x": 5.278271745004014,
-        "y": 4.921661467254559
+        "x": 5.278643820147134,
+        "y": 4.937627367882005
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -50,15 +50,15 @@
       }
     }
   ],
-  "maxVelocity": 4.0,
-  "maxAcceleration": 4.5,
+  "maxVelocity": 3.0,
+  "maxAcceleration": 2.0,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.6109090909090726,
+      "position": 0.52,
       "names": [
-        "floorwheelStop",
-        "floorCompressorIn"
+        "floorCompressorIn",
+        "floorwheelStop"
       ]
     }
   ]

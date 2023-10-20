@@ -16,24 +16,24 @@ public class FloorIntake extends SubsystemBase{
     }
 
     public void collectCube(){
-        floorMotor.set(superSpeed);
+        floorMotor.set(-superSpeed);
     }
 
     public boolean isCollectingCube(){
         double position = sir_eyespy_coder.getPosition();
-        if(position > 30){
+        if(position < -30){
             return true;
         }
         return false;
     }
 
     public void fartCube(){
-        floorMotor.set(-superSpeed);
+        floorMotor.set(superSpeed);
     }
 
     public boolean isFartingCube(){
         double position = sir_eyespy_coder.getPosition();
-        if(position < -80.0){
+        if(position > 80.0){
             return true;
         }
         return false; 

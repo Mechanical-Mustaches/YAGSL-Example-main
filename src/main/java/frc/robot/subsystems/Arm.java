@@ -16,45 +16,32 @@ public class Arm extends SubsystemBase{
     SparkMaxPIDController PID;
     private double kDt = 0.02;
     RelativeEncoder sir_eyespy_coder;
-    TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(300, 150);
-    ProfiledPIDController controller = new ProfiledPIDController(0.025, 0.005, 0, m_Constraints, kDt);
+    TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(300, 200);
+    ProfiledPIDController controller = new ProfiledPIDController(0.025, 0, 0.00, m_Constraints, kDt);
 
     public Arm(){
         armMotor.restoreFactoryDefaults();
         sir_eyespy_coder = armMotor.getEncoder();
         PID = armMotor.getPIDController();
+        sir_eyespy_coder.setPosition(0.0);
     }
+    //0.025, 0, 0, 300, 150
+    //0.05, 0, 0.005, 200, 100
 
     @Override
     public void periodic(){
         sir_eyespy_coder = armMotor.getEncoder();
+       // System.out.println(sir_eyespy_coder.getPosition());
     }
 
-    public void setArmMotor(double percent){
-        armMotor.set(percent);
-    }
-
-    public void armCollapse_Test(){
-        armPower = armOutputPower;
-        setArmMotor(armPower);
-    }
-
-    public void armExtend_Test(){
-        armPower = -armOutputPower;
-        setArmMotor(armPower);
-    }
- 
-    public void armHold(){
-        armPower = 0;
-        setArmMotor(armPower);
-    }
+   
 
     public void armCollapse(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 3));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 2));
     }
 
     public boolean isCollapseing(){
-        if(sir_eyespy_coder.getPosition() < 6){
+        if(sir_eyespy_coder.getPosition() < 2){
             return true;
         }
         return false;
@@ -65,11 +52,11 @@ public class Arm extends SubsystemBase{
      */
 
     public void armHighCone(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 32));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 34));
     }
 
     public boolean isConeHighSetPoint(){
-        if(sir_eyespy_coder.getPosition() > 31){ 
+        if(sir_eyespy_coder.getPosition() > 32){ 
             return true;
         }
        return false;
@@ -146,6 +133,28 @@ public class Arm extends SubsystemBase{
         armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), -1));
     }
 
+    /*
+     * Testing Functions
+     */
+
+    // public void setArmMotor(double percent){
+    //     armMotor.set(percent);
+    // }
+
+    // public void armCollapse_Test(){
+    //     armPower = armOutputPower;
+    //     setArmMotor(armPower);
+    // }
+
+    // public void armExtend_Test(){
+    //     armPower = -armOutputPower;
+    //     setArmMotor(armPower);
+    // }
+ 
+    // public void armHold(){
+    //     armPower = 0;
+    //     setArmMotor(armPower);
+    // }
 
 
 

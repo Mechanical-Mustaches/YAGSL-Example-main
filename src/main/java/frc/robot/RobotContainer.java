@@ -178,7 +178,7 @@ public class RobotContainer
       g_OneButt.onFalse(new ACollapse(arm));
 
       g_TwoButt.onTrue(new ACubeMid(arm));
-      g_TwoButt.onTrue(new ACollapse(arm));
+      g_TwoButt.onFalse(new ACollapse(arm));
 
       g_ThreeButt.onTrue(new ACubeFloor(arm));
       g_ThreeButt.onFalse(new ACollapse(arm));
@@ -196,6 +196,7 @@ public class RobotContainer
       g_SixButt.onTrue(new CGo(conveyor));
       g_SixButt.onFalse(new CStopp(conveyor));
       g_SixButt.onFalse(new IAStop(armIntake));
+      g_SixButt.onFalse(new ACollapse(arm));
 
 
   }

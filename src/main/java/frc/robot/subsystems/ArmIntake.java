@@ -33,7 +33,7 @@ public class ArmIntake extends SubsystemBase {
 
     public boolean cubeyIntake(){
         double position = encoder.getPosition();
-        if(position > 30){
+        if(position > 37){
             return true;
         }
         return false;
@@ -104,8 +104,8 @@ public class ArmIntake extends SubsystemBase {
      */
 
     public void intakeCube(){
-        intakePower = -intakeCubePower;
-        intakeAmps = -intakeCurrentLimit;
+        intakePower = intakeCubePower; //Both - 
+        intakeAmps = intakeCurrentLimit;
         setIntakeMotor(intakePower, intakeAmps);
     }
 
