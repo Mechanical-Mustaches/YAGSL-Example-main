@@ -27,15 +27,14 @@ public class ConveyArmCombo extends CommandBase {
         conveyor.moveConCube();
         armIntake.cubeyMovey();
         isFinished = true;
-      
+        
        
     }
 
     public boolean isFinished(){
         armIntake.cubeyIntake();
-        conveyor.cubeyMove();
-        return isFinished;
-
+        System.out.println("Im Finished");
+        return conveyor.cubeyMove();
     }
 
     

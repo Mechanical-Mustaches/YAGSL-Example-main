@@ -38,6 +38,7 @@ public class Conveyor extends SubsystemBase {
     public boolean cubeyMove(){
         double position = sir_eyespy_coder.getPosition();
         if(position > 37){
+            conveyMotor.set(0);
             return true;
         }
         return false;

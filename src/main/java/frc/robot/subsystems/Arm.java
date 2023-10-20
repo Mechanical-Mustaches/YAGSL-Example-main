@@ -37,11 +37,11 @@ public class Arm extends SubsystemBase{
    
 
     public void armCollapse(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 2));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 0.5));
     }
 
     public boolean isCollapseing(){
-        if(sir_eyespy_coder.getPosition() < 2){
+        if(sir_eyespy_coder.getPosition() < 1){
             return true;
         }
         return false;
