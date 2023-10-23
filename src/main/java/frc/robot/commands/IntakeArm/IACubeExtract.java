@@ -12,11 +12,22 @@ public class IACubeExtract extends CommandBase{
     }
 
     public void execute(){
-        armIntake.extractCube();
+        armIntake.extractCone();
+    }
+
+    @Override
+    public void initialize(){
+        armIntake.resetPosition();
     }
 
     public boolean isFinished(){
-        return armIntake.isArmExtractingCube();
+        boolean finished = armIntake.isArmExtractingCube();
+        if(finished){
+            System.out.println(this.getClass().getName() + " is Finished");
+            armIntake.stopArmIntake();
+        }
+        return finished;
     }
-    
+
+
 }

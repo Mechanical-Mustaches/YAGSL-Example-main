@@ -15,7 +15,7 @@ public class Conveyor extends SubsystemBase {
     public Conveyor(){
         ConveyEncoder = conveyMotor.getEncoder();
         ConveyEncoder.setPosition(0);
-        System.out.println(ConveyEncoder.getPosition());
+        //System.out.println(ConveyEncoder.getPosition());
     }
 
     @Override

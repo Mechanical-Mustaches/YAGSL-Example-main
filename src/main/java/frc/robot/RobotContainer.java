@@ -154,7 +154,7 @@ public class RobotContainer
       g_EightButt.onTrue(new AConeMid(arm));
       g_EightButt.onFalse(new ACollapse(arm));
 
-      g_NineButt.onTrue(new AConeFloor(arm));
+      g_NineButt.onTrue(new AConeMid(arm));
       g_NineButt.onFalse(new ACollapse(arm));
 
       g_TenButt.onTrue(new AConeHuman(arm));
@@ -176,7 +176,7 @@ public class RobotContainer
       g_TwoButt.onTrue(new ACubeMid(arm));
       g_TwoButt.onFalse(new ACollapse(arm));
 
-      g_ThreeButt.onTrue(new ACubeFloor(arm));
+      g_ThreeButt.onTrue(new ACubeMid(arm));
       g_ThreeButt.onFalse(new ACollapse(arm));
 
       g_FourButt.onTrue(new ACubeHuman(arm));

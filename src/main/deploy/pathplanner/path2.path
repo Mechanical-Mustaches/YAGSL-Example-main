@@ -2,39 +2,14 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 3.80514480743926,
-        "y": 4.931615943991983
+        "x": 1.8526840472484365,
+        "y": 4.921661467254559
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.513124253265536,
-        "y": 4.9085009455906805
+        "x": 2.56066349307471,
+        "y": 4.898546468853256
       },
-      "holonomicAngle": 0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": true,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [
-          "floorwheelOut",
-          "floorCompressorOut"
-        ],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 5.621009532617356,
-        "y": 4.921661467254559
-      },
-      "prevControl": {
-        "x": 5.278643820147134,
-        "y": 4.937627367882005
-      },
-      "nextControl": null,
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
@@ -42,23 +17,112 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "highCone",
+          "coneOut",
+          "floorwheelOut"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 7.071243886077517,
+        "y": 4.613343927542556
+      },
+      "prevControl": {
+        "x": 6.523004878714367,
+        "y": 4.613343927542556
+      },
+      "nextControl": {
+        "x": 6.523004878714367,
+        "y": 4.613343927542556
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": true,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
           "ConveyorArmCombo"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 3.0
       }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.115324914410513,
+        "y": 4.339283892242999
+      },
+      "prevControl": {
+        "x": 2.8804091796217794,
+        "y": 4.579086423130112
+      },
+      "nextControl": {
+        "x": 2.8804091796217794,
+        "y": 4.579086423130112
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": true,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "cubeOut"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 7.231112240002258,
+        "y": 3.779744653506401
+      },
+      "prevControl": {
+        "x": 6.134872098804028,
+        "y": 5.504039042266119
+      },
+      "nextControl": null,
+      "holonomicAngle": -55.22216863363611,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
     }
   ],
-  "maxVelocity": 3.0,
-  "maxAcceleration": 2.0,
+  "maxVelocity": 4.0,
+  "maxAcceleration": 3.0,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.52,
+      "position": 0.05,
       "names": [
-        "floorCompressorIn",
-        "floorwheelStop"
+        "armDown"
+      ]
+    },
+    {
+      "position": 1.3963636363636396,
+      "names": [
+        "highCube"
+      ]
+    },
+    {
+      "position": 2.0509090909090064,
+      "names": [
+        "armDown"
       ]
     }
   ]

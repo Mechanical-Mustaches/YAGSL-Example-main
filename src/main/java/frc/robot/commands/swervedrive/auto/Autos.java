@@ -116,9 +116,8 @@ public final class Autos
 
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 4.5));
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3));
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("intakeout", new PrintCommand("Intakeout"));
     eventMap.put("balance", new AutoBalanceCommand(aBuilder)); //Ajaxs
     eventMap.put("highCone", new AConeHigh(arm));
     eventMap.put("highCube", new ACubeHigh(arm));
@@ -130,7 +129,7 @@ public final class Autos
     eventMap.put("floorCompressorIn", new IFOut(floorIntake));
     eventMap.put("floorwheelStop", new IFStop(floorIntake));
     eventMap.put("ConveyorArmCombo", new ConveyArmCombo(conveyor));
-
+    
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,
       aBuilder::resetOdometry,
