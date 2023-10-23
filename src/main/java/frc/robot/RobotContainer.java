@@ -33,7 +33,6 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 //Command Imports
 import frc.robot.commands.ArmPositions.*;
-import frc.robot.commands.Compressor.*;
 import frc.robot.commands.IntakeArm.*;
 import frc.robot.commands.IntakeFloor.*;
 import frc.robot.commands.Conveyor.*;
@@ -41,7 +40,6 @@ import frc.robot.commands.Conveyor.*;
 //Subsystem Imports
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmIntake;
-import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.FloorIntake;
 
@@ -68,7 +66,6 @@ public class RobotContainer
 
   Arm arm = new Arm();
   ArmIntake armIntake = new ArmIntake();
-  Compressor compressor = new Compressor();
   Conveyor conveyor = new Conveyor();
   FloorIntake floorIntake = new FloorIntake();
 
@@ -126,9 +123,8 @@ public class RobotContainer
     JoystickButton d_leftBumper = new JoystickButton(driverXbox, 6);
 
     d_leftBumper.onTrue(new IFCollect(floorIntake));
-    d_leftBumper.onTrue(new CExtend(compressor));
     d_leftBumper.onFalse(new IFStop(floorIntake));
-    d_leftBumper.onFalse(new CRetract(compressor));
+    d_leftBumper.onFalse(new IFOut(floorIntake));
 
      
      /*
@@ -225,7 +221,7 @@ public class RobotContainer
   }
 
   public Command getAutoPaths(){
-    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, compressor, floorIntake, conveyor);
+    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, floorIntake, conveyor);
   }
  
 

@@ -4,41 +4,45 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder; 
+import frc.robot.subsystems.ArmIntake;
 
 public class Conveyor extends SubsystemBase {
-    private CANSparkMax conveyMotor = new CANSparkMax(13, MotorType.kBrushless);
+    public CANSparkMax conveyMotor = new CANSparkMax(13, MotorType.kBrushless);
     private double speed = 0.6;
-    RelativeEncoder sir_eyespy_coder;
+    public RelativeEncoder ConveyEncoder;
+    ArmIntake armIntake;
 
     public Conveyor(){
-        sir_eyespy_coder = conveyMotor.getEncoder();
-        sir_eyespy_coder.setPosition(0);
-        System.out.println(sir_eyespy_coder.getPosition());
+        ConveyEncoder = conveyMotor.getEncoder();
+        ConveyEncoder.setPosition(0);
+        System.out.println(ConveyEncoder.getPosition());
     }
+
     @Override
     public void periodic(){
-       System.out.println(sir_eyespy_coder.getPosition());
+       System.out.println(ConveyEncoder.getPosition());
     }
-
-
 
     /*
      * Autonomous Commands
      */
+    
     public int setEncoderPos(int pos){
-        sir_eyespy_coder.setPosition(pos);
+        ConveyEncoder.setPosition(pos);
         return pos;
         
     }
 
     public void moveConCube(){
         conveyMotor.set(0.4);
+        armIntake.cubeyMovey();
     }
 
     public boolean cubeyMove(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = ConveyEncoder.getPosition();
         if(position > 37){
             conveyMotor.set(0);
+            armIntake.stopArmIntake();
             return true;
         }
         return false;
@@ -54,7 +58,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean isConveyorGoing(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = ConveyEncoder.getPosition();
         if(position > 12){
             return true;
         }
@@ -62,7 +66,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean isGoGoGoing(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = ConveyEncoder.getPosition();
         if(position > 175){
             return true;
         }
@@ -74,7 +78,7 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean isFinished(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = ConveyEncoder.getPosition();
         if(position > 143){
             return true;
         }
@@ -82,13 +86,13 @@ public class Conveyor extends SubsystemBase {
     }
 
     public boolean conveyorStop(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = ConveyEncoder.getPosition();
         double threshold = 0.01;
         return Math.abs(position) < threshold;
     }
 
     public boolean STOP(){
-        double position = sir_eyespy_coder.getPosition();
+        double position = ConveyEncoder.getPosition();
         if(position > 160){
             return true;
         }
