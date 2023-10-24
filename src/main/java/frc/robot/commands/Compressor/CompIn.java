@@ -16,7 +16,7 @@ public class CompIn extends CommandBase {
     }
 
     public boolean isFinished(){
-        return compressor.isCompressorIn();
+        return true;
     }
     
 }

@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.RelativeEncoder; 
 
 public class ArmIntake extends SubsystemBase {
-    public CANSparkMax intakeMotor = new CANSparkMax(11, MotorType.kBrushless);
-    public RelativeEncoder AIencoder;
+    private CANSparkMax intakeMotor = new CANSparkMax(11, MotorType.kBrushless);
+    RelativeEncoder AIencoder;
     private int intakeCurrentLimit = 25;
     private double intakeOutputPower = 1.0;
     private double intakeCubePower = 0.4;
@@ -20,27 +20,6 @@ public class ArmIntake extends SubsystemBase {
     public ArmIntake(){
         AIencoder = intakeMotor.getEncoder();
         AIencoder.setPosition(0);
-    }
-
-    /*
-     * AUTO COMMANDS
-     */
-
-    public int setArmEncoderPos(int pos){
-        AIencoder.setPosition(pos);
-        return pos;
-    }
-
-    public void cubeyMovey(){
-        intakeMotor.set(0.4);
-    }
-
-    public boolean cubeyIntake(){
-        double position = AIencoder.getPosition();
-        if(position > 37){
-            return true;
-        }
-        return false;
     }
 
     /*
@@ -87,13 +66,13 @@ public class ArmIntake extends SubsystemBase {
         intakePower = intakeOutputPower;
         intakeAmps = -intakeCurrentLimit;
         setIntakeMotor(intakePower, intakeAmps);
-        System.out.println("isExtractingCone position: " + AIencoder.getPosition());
+        //System.out.println("isExtractingCone position: " + AIencoder.getPosition());
 
     }
 
     public boolean isArmExtractingCone(){
         double position = AIencoder.getPosition();
-        System.out.println("isExtractingCone position: " + position);
+       // System.out.println("isExtractingCone position: " + position);
         if(position > 35){
             return true;
         }
@@ -113,7 +92,11 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmIntakingCube(){
-        return true;
+        double position = AIencoder.getPosition();
+        if(position > 22){
+            return true;
+        }
+        return false;
     }
 
     public void extractCube(){
@@ -123,7 +106,12 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmExtractingCube(){
-        return true;
+        double position = AIencoder.getPosition();
+        // System.out.println("isExtractingCone position: " + position);
+         if(position < -35){
+             return true;
+         }
+         return false;
     }
 
   

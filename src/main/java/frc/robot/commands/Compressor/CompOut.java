@@ -16,7 +16,7 @@ public class CompOut extends CommandBase {
     }
 
     public boolean isFinished(){
-        return compressor.isCompresorOut();
+        return true;
     }
 
 }

@@ -219,9 +219,11 @@ public class RobotContainer
 
   
   private String initializeAutoChooser() {
-    m_autoChooser.setDefaultOption("path1", "path1");
-    m_autoChooser.addOption("path2", "path2");
-    m_autoChooser.addOption("path3", "path3");
+    m_autoChooser.setDefaultOption("Test Path", "path1");
+    m_autoChooser.addOption("No Bump 2.5 Peice", "path2");
+    m_autoChooser.addOption("No Bump 2 Peice", "path3");
+    m_autoChooser.addOption("Leave Grab Balance", "path4");
+    m_autoChooser.addOption("path5", "path5");
     
     SmartDashboard.putData("Auto Selector", m_autoChooser);
     return m_autoChooser.getSelected();

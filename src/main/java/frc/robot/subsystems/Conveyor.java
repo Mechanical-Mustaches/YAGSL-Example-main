@@ -24,32 +24,6 @@ public class Conveyor extends SubsystemBase {
     }
 
     /*
-     * Autonomous Commands
-     */
-    
-    public int setEncoderPos(int pos){
-        ConveyEncoder.setPosition(pos);
-        return pos;
-        
-    }
-
-    public void moveConCube(){
-        conveyMotor.set(0.4);
-        armIntake.cubeyMovey();
-    }
-
-    public boolean cubeyMove(){
-        double position = ConveyEncoder.getPosition();
-        if(position > 37){
-            conveyMotor.set(0);
-            armIntake.stopArmIntake();
-            return true;
-        }
-        return false;
-    }
-
-
-    /*
      * Teleop Commands
      */
 

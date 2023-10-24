@@ -30,7 +30,6 @@ import frc.robot.commands.Compressor.CompIn;
 import frc.robot.commands.Compressor.CompOut;
 import frc.robot.commands.Conveyor.CGo;
 import frc.robot.commands.Conveyor.CStopp;
-import frc.robot.commands.Conveyor.ConveyArmCombo;
 import frc.robot.commands.IntakeArm.IAConeExtract;
 import frc.robot.commands.IntakeArm.IACubeExtract;
 import frc.robot.commands.IntakeArm.IACubeIntake;
@@ -122,7 +121,7 @@ public final class Autos
 
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor, Compressor compressor){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3));
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3)); //2.5, 3
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("balance", new AutoBalanceCommand(aBuilder)); //Ajaxs
     //arm ones
@@ -130,20 +129,26 @@ public final class Autos
     eventMap.put("highCube", new ACubeHigh(arm));
     eventMap.put("coneOut", new IAConeExtract(armIntake));
     eventMap.put("cubeOut", new IACubeExtract(armIntake));
-    eventMap.put("IAStop", new IAStop(armIntake));
     eventMap.put("armDown", new ACollapse(arm));
     //intake ones:
+    eventMap.put("intakeOut1", new CompOut(compressor));
+    eventMap.put("intakeIn1", new CompIn(compressor));
+    eventMap.put("intakeOut2", new IFCollect(floorIntake));
+    eventMap.put("intakeIn2", new IFStop(floorIntake));
+    /* 
     eventMap.put("compOut", new CompOut(compressor));
     eventMap.put("compIn", new CompIn(compressor));
     eventMap.put("IFCollect", new IFCollect(floorIntake));
     eventMap.put("IFStop", new IFStop(floorIntake));
+     * 
+    */  
     //convey ones
     eventMap.put("CConvey", new ACubeConvey(arm));
-    eventMap.put("CConvey", new IACubeIntake(armIntake)); //true
+    eventMap.put("CConvey1", new IACubeIntake(armIntake)); //true
     eventMap.put("CConvey", new CGo(conveyor)); //true
     eventMap.put("CStop1", new CStopp(conveyor)); //true
     eventMap.put("CStop2", new IAStop(armIntake));
-    eventMap.put("CStop3", new ACollapse(arm));
+    //eventMap.put("CStop3", new ACollapse(arm));
     
   
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

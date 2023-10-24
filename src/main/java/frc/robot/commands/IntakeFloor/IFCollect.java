@@ -16,7 +16,7 @@ public class IFCollect extends CommandBase {
     }
 
     public boolean isFinished(){
-        return floorIntake.isCollectingCube();
+        return true;
     }
     
 }

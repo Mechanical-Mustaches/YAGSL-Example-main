@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.7841690384235467,
-        "y": 4.967338139804485
+        "x": 2.103905746273031,
+        "y": 4.898823130979595
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4921574629474,
-        "y": 4.944499803529522
+        "x": 2.811894170796885,
+        "y": 4.875984794704632
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -17,6 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "armDown",
           "highCone",
           "coneOut",
           "armDown"
@@ -28,22 +29,19 @@
     },
     {
       "anchorPoint": {
-        "x": 2.7433791619719994,
-        "y": 4.967338139804485
+        "x": 5.461141178692614,
+        "y": 4.921661467254559
       },
       "prevControl": {
-        "x": 2.149582418822959,
-        "y": 4.990176476079448
+        "x": 5.226839437766895,
+        "y": 4.921661467254559
       },
-      "nextControl": {
-        "x": 3.3371759051210397,
-        "y": 4.9444998035295225
-      },
+      "nextControl": null,
       "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": true,
+      "isStopPoint": false,
       "stopEvent": {
         "names": [
           "CStop1",
@@ -54,28 +52,6 @@
         "waitBehavior": "none",
         "waitTime": 2.0
       }
-    },
-    {
-      "anchorPoint": {
-        "x": 3.405690913945931,
-        "y": 4.20225387459322
-      },
-      "prevControl": {
-        "x": 3.2401129759524476,
-        "y": 4.790341033673522
-      },
-      "nextControl": null,
-      "holonomicAngle": 0,
-      "isReversal": false,
-      "velOverride": null,
-      "isLocked": false,
-      "isStopPoint": false,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
     }
   ],
   "maxVelocity": 3.0,
@@ -83,9 +59,16 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.16000000000002015,
+      "position": 0.24000000000000488,
       "names": [
         "CConvey"
+      ]
+    },
+    {
+      "position": 0.6254545454545185,
+      "names": [
+        "CStop1",
+        "CStop2"
       ]
     }
   ]

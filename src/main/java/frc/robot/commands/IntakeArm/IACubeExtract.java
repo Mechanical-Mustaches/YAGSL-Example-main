@@ -12,7 +12,7 @@ public class IACubeExtract extends CommandBase{
     }
 
     public void execute(){
-        armIntake.extractCube();
+        armIntake.extractCube();//diff
     }
 
     @Override
@@ -21,7 +21,7 @@ public class IACubeExtract extends CommandBase{
     }
 
     public boolean isFinished(){
-        boolean finished = armIntake.isArmExtractingCube();
+        boolean finished = armIntake.isArmExtractingCube();//diff
         if(finished){
             System.out.println(this.getClass().getName() + " is Finished");
             armIntake.stopArmIntake();

@@ -17,7 +17,7 @@ public class Arm extends SubsystemBase{
     private double kDt = 0.004;
     RelativeEncoder sir_eyespy_coder;
     TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(1000, 750);
-    ProfiledPIDController controller = new ProfiledPIDController(0.1, 0, 0, m_Constraints, kDt);
+    ProfiledPIDController controller = new ProfiledPIDController(0.1, 0, 0.001, m_Constraints, kDt);
 
     public Arm(){
         armMotor.restoreFactoryDefaults();

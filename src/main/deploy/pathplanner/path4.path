@@ -1,0 +1,103 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.85,
+        "y": 3.3
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.615169478138544,
+        "y": 3.3
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "highCone",
+          "coneOut"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 7.5,
+        "y": 3.3
+      },
+      "prevControl": {
+        "x": 6.25483932871289,
+        "y": 3.3
+      },
+      "nextControl": {
+        "x": 6.25483932871289,
+        "y": 3.3
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 4.3,
+        "y": 3.3
+      },
+      "prevControl": {
+        "x": 5.43072831234346,
+        "y": 3.3
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "balance"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": 2.5,
+  "maxAcceleration": 3.0,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.05,
+      "names": [
+        "armDown"
+      ]
+    },
+    {
+      "position": 0.6545454545454215,
+      "names": [
+        "intakeOut1",
+        "intakeOut2"
+      ]
+    },
+    {
+      "position": 1.483636363636281,
+      "names": [
+        "intakeIn1",
+        "intakeIn2"
+      ]
+    }
+  ]
+}

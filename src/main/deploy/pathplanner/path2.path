@@ -17,6 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "armDown",
           "highCone",
           "coneOut"
         ],
@@ -96,8 +97,8 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "IFStop",
-          "compIn"
+          "intakeIn1",
+          "intakeIn2"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -110,17 +111,33 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.2618181818181732,
+      "position": 0.05,
       "names": [
         "armDown"
       ]
     },
     {
-      "position": 1.25,
+      "position": 0.5,
       "names": [
-        "highCube",
-        "IFStop",
-        "compIn"
+        "intakeOut1",
+        "intakeOut2"
+      ]
+    },
+    {
+      "position": 1.01,
+      "names": [
+        "intakeIn1",
+        "intakeIn2",
+        "CConvey",
+        "CConvey1"
+      ]
+    },
+    {
+      "position": 1.5,
+      "names": [
+        "CStop1",
+        "CStop2",
+        "highCube"
       ]
     },
     {
@@ -130,17 +147,10 @@
       ]
     },
     {
-      "position": 0.5,
-      "names": [
-        "compOut",
-        "IFCollect"
-      ]
-    },
-    {
       "position": 2.65,
       "names": [
-        "compOut",
-        "IFCollect"
+        "intakeOut1",
+        "intakeOut2"
       ]
     }
   ]

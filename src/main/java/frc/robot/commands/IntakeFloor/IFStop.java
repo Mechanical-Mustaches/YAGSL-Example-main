@@ -16,6 +16,6 @@ public class IFStop extends CommandBase{
     }
 
     public boolean isFinished(){
-        return floorIntake.isIntakeOff();
+        return true;
     }
 }
