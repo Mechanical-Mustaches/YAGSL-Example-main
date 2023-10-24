@@ -138,12 +138,12 @@ public final class Autos
     eventMap.put("IFCollect", new IFCollect(floorIntake));
     eventMap.put("IFStop", new IFStop(floorIntake));
     //convey ones
-    eventMap.put("CConvery1", new ACubeConvey(arm));
-    eventMap.put("CConvery2", new IACubeIntake(armIntake));
-    eventMap.put("CConvery3", new CGo(conveyor));
-    eventMap.put("CStop1", new CStopp(conveyor));
+    eventMap.put("CConvey", new ACubeConvey(arm));
+    eventMap.put("CConvey", new IACubeIntake(armIntake)); //true
+    eventMap.put("CConvey", new CGo(conveyor)); //true
+    eventMap.put("CStop1", new CStopp(conveyor)); //true
     eventMap.put("CStop2", new IAStop(armIntake));
-    //eventMap.put("CStop", new ACollapse(arm));
+    eventMap.put("CStop3", new ACollapse(arm));
     
   
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

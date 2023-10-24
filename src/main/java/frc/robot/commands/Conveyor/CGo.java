@@ -16,7 +16,8 @@ public class CGo extends CommandBase{
     }
 
     public boolean isFinished(){
-        return conveyor.isConveyorGoing();
+        return true;
+        //return conveyor.isConveyorGoing();
     }
     
 }

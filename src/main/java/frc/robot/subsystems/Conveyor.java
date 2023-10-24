@@ -20,7 +20,7 @@ public class Conveyor extends SubsystemBase {
 
     @Override
     public void periodic(){
-       System.out.println(ConveyEncoder.getPosition());
+       //System.out.println(ConveyEncoder.getPosition());
     }
 
     /*

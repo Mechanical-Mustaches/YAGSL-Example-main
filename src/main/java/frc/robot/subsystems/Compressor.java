@@ -31,6 +31,8 @@ public class Compressor extends SubsystemBase {
         rightDS.set(Value.kReverse);
     }
 
+    public boolean isCompressorIn(){
+        if(leftDS.getRevChannel() == 0){
             return true;
         }
         return false;

@@ -16,7 +16,8 @@ public class IAConeIntake extends CommandBase {
     }
 
     public boolean isFinished(){
-        return armIntake.isArmIntakingCone();
+        return true;
+        //return armIntake.isArmIntakingCone();
     }
     
 }

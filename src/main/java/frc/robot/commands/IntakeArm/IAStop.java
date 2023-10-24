@@ -16,6 +16,6 @@ public class IAStop extends CommandBase {
     }
 
     public boolean isFinsihed(){
-        return armIntake.isArmIntakeStopped();
+        return true;
     }
 }

@@ -16,7 +16,8 @@ public class CStopp extends CommandBase {
     }
 
     public boolean isFinished(){
-        return conveyor.STOP();
+        return true;
+        //return conveyor.STOP();
     }
     
 }

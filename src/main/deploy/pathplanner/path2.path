@@ -97,7 +97,7 @@
       "stopEvent": {
         "names": [
           "IFStop",
-          "CompIn"
+          "compIn"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -110,7 +110,7 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.05,
+      "position": 0.2618181818181732,
       "names": [
         "armDown"
       ]
@@ -120,7 +120,7 @@
       "names": [
         "highCube",
         "IFStop",
-        "CompIn"
+        "compIn"
       ]
     },
     {
@@ -132,14 +132,14 @@
     {
       "position": 0.5,
       "names": [
-        "CompOut",
+        "compOut",
         "IFCollect"
       ]
     },
     {
       "position": 2.65,
       "names": [
-        "CompOut",
+        "compOut",
         "IFCollect"
       ]
     }

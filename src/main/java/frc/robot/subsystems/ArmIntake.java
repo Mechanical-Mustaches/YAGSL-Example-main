@@ -62,12 +62,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmIntakeStopped(){
-        double position = AIencoder.getPosition();
-        if (counter++ % 10 == 0) {
-            System.out.println("Intake arm position: " + position);
-        }
-        double threshold = 0.01;
-        return Math.abs(position) < threshold;
+        return true;
     }
 
     /*
@@ -118,11 +113,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmIntakingCube(){
-        double position = AIencoder.getPosition();
-        if(position > 22){
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public void extractCube(){
@@ -132,11 +123,7 @@ public class ArmIntake extends SubsystemBase {
     }
 
     public boolean isArmExtractingCube(){
-        double position = AIencoder.getPosition();
-        if(position < -60){
-            return true;
-        }
-        return false;
+        return true;
     }
 
   

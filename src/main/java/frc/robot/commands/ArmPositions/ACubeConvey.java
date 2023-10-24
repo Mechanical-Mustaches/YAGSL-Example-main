@@ -14,6 +14,8 @@ public class ACubeConvey extends CommandBase {
     public void execute(){
         arm.armConveyCube();
     }
-
+    public boolean isFinsihed(){
+        return true;
+    }
 
 }

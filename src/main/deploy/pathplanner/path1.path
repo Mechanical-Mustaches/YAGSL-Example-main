@@ -47,9 +47,10 @@
       "stopEvent": {
         "names": [
           "CStop1",
-          "Cstop2"
+          "CStop2",
+          "CStop3"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 2.0
       }
@@ -82,11 +83,9 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.05,
+      "position": 0.16000000000002015,
       "names": [
-        "CConvery1",
-        "CConvery2",
-        "CConvery3"
+        "CConvey"
       ]
     }
   ]
