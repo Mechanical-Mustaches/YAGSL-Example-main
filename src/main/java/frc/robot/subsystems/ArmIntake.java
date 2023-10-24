@@ -133,7 +133,7 @@ public class ArmIntake extends SubsystemBase {
 
     public boolean isArmExtractingCube(){
         double position = AIencoder.getPosition();
-        if(position > 60){
+        if(position < -60){
             return true;
         }
         return false;

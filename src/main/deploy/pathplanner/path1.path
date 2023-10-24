@@ -35,22 +35,59 @@
         "x": 2.149582418822959,
         "y": 4.990176476079448
       },
-      "nextControl": null,
+      "nextControl": {
+        "x": 3.3371759051210397,
+        "y": 4.9444998035295225
+      },
       "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "CStop1",
+          "Cstop2"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 2.0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 3.405690913945931,
+        "y": 4.20225387459322
+      },
+      "prevControl": {
+        "x": 3.2401129759524476,
+        "y": 4.790341033673522
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
-        "executionBehavior": "sequential",
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
-        "waitTime": 2.0
+        "waitTime": 0
       }
     }
   ],
   "maxVelocity": 3.0,
   "maxAcceleration": 3.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 0.05,
+      "names": [
+        "CConvery1",
+        "CConvery2",
+        "CConvery3"
+      ]
+    }
+  ]
 }

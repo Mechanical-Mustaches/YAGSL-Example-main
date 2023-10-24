@@ -24,17 +24,23 @@ import frc.robot.Constants.Auton;
 import frc.robot.commands.ArmPositions.ACollapse;
 import frc.robot.commands.ArmPositions.AConeFloor;
 import frc.robot.commands.ArmPositions.AConeHigh;
+import frc.robot.commands.ArmPositions.ACubeConvey;
 import frc.robot.commands.ArmPositions.ACubeHigh;
+import frc.robot.commands.Compressor.CompIn;
+import frc.robot.commands.Compressor.CompOut;
+import frc.robot.commands.Conveyor.CGo;
+import frc.robot.commands.Conveyor.CStopp;
 import frc.robot.commands.Conveyor.ConveyArmCombo;
 import frc.robot.commands.IntakeArm.IAConeExtract;
 import frc.robot.commands.IntakeArm.IACubeExtract;
+import frc.robot.commands.IntakeArm.IACubeIntake;
 import frc.robot.commands.IntakeArm.IAStop;
 import frc.robot.commands.IntakeFloor.IFCollect;
 import frc.robot.commands.IntakeFloor.IFFart;
-import frc.robot.commands.IntakeFloor.IFOut;
 import frc.robot.commands.IntakeFloor.IFStop;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmIntake;
+import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.FloorIntake;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -115,21 +121,31 @@ public final class Autos
   }
 
 
-  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor){
+  public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor, Compressor compressor){
     List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("balance", new AutoBalanceCommand(aBuilder)); //Ajaxs
+    //arm ones
     eventMap.put("highCone", new AConeHigh(arm));
     eventMap.put("highCube", new ACubeHigh(arm));
     eventMap.put("coneOut", new IAConeExtract(armIntake));
     eventMap.put("cubeOut", new IACubeExtract(armIntake));
     eventMap.put("IAStop", new IAStop(armIntake));
     eventMap.put("armDown", new ACollapse(arm));
-    eventMap.put("floorwheelOut", new IFCollect(floorIntake));
-    eventMap.put("floorCompressorIn", new IFOut(floorIntake));
-    eventMap.put("floorwheelStop", new IFStop(floorIntake));
-    eventMap.put("ConveyorArmCombo", new ConveyArmCombo(conveyor));
+    //intake ones:
+    eventMap.put("compOut", new CompOut(compressor));
+    eventMap.put("compIn", new CompIn(compressor));
+    eventMap.put("IFCollect", new IFCollect(floorIntake));
+    eventMap.put("IFStop", new IFStop(floorIntake));
+    //convey ones
+    eventMap.put("CConvery1", new ACubeConvey(arm));
+    eventMap.put("CConvery2", new IACubeIntake(armIntake));
+    eventMap.put("CConvery3", new CGo(conveyor));
+    eventMap.put("CStop1", new CStopp(conveyor));
+    eventMap.put("CStop2", new IAStop(armIntake));
+    //eventMap.put("CStop", new ACollapse(arm));
     
+  
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,
       aBuilder::resetOdometry,

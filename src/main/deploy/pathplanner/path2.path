@@ -18,8 +18,7 @@
       "stopEvent": {
         "names": [
           "highCone",
-          "coneOut",
-          "floorwheelOut"
+          "coneOut"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -96,7 +95,10 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "IFStop",
+          "CompIn"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
@@ -114,15 +116,31 @@
       ]
     },
     {
-      "position": 1.3963636363636396,
+      "position": 1.25,
       "names": [
-        "highCube"
+        "highCube",
+        "IFStop",
+        "CompIn"
       ]
     },
     {
-      "position": 2.0509090909090064,
+      "position": 2.05,
       "names": [
         "armDown"
+      ]
+    },
+    {
+      "position": 0.5,
+      "names": [
+        "CompOut",
+        "IFCollect"
+      ]
+    },
+    {
+      "position": 2.65,
+      "names": [
+        "CompOut",
+        "IFCollect"
       ]
     }
   ]

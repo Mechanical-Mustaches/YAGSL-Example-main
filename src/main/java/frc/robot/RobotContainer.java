@@ -36,10 +36,12 @@ import frc.robot.commands.ArmPositions.*;
 import frc.robot.commands.IntakeArm.*;
 import frc.robot.commands.IntakeFloor.*;
 import frc.robot.commands.Conveyor.*;
+import frc.robot.commands.Compressor.*;
 
 //Subsystem Imports
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.ArmIntake;
+import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.FloorIntake;
 
@@ -68,6 +70,7 @@ public class RobotContainer
   ArmIntake armIntake = new ArmIntake();
   Conveyor conveyor = new Conveyor();
   FloorIntake floorIntake = new FloorIntake();
+  Compressor compressor = new Compressor();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -123,8 +126,9 @@ public class RobotContainer
     JoystickButton d_leftBumper = new JoystickButton(driverXbox, 6);
 
     d_leftBumper.onTrue(new IFCollect(floorIntake));
+    d_leftBumper.onTrue(new CompOut(compressor));
     d_leftBumper.onFalse(new IFStop(floorIntake));
-    d_leftBumper.onFalse(new IFOut(floorIntake));
+    d_leftBumper.onFalse(new CompIn(compressor));
 
      
      /*
@@ -143,6 +147,9 @@ public class RobotContainer
       JoystickButton g_TenButt = new JoystickButton(gunnerXbox, 10);
       JoystickButton g_ElevenButt = new JoystickButton(gunnerXbox, 11);
       JoystickButton g_TwelveButt = new JoystickButton(gunnerXbox, 12);
+
+      g_TwelveButt.onTrue(new ACollapse(arm));
+      g_TwelveButt.onFalse(new ACollapse(arm));
 
       /*
       * CONE OUTPUTS
@@ -183,7 +190,7 @@ public class RobotContainer
       g_FourButt.onTrue(new IACubeIntake(armIntake));
       g_FourButt.onFalse(new IAStop(armIntake));
       g_FourButt.onFalse(new ACollapse(arm));
-
+  
       g_FiveButt.onTrue(new IACubeExtract(armIntake));
       g_FiveButt.onFalse(new IAStop(armIntake));
 
@@ -221,7 +228,7 @@ public class RobotContainer
   }
 
   public Command getAutoPaths(){
-    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, floorIntake, conveyor);
+    return Autos.autoBuilderBase(drivebase, initializeAutoChooser(), arm, armIntake, floorIntake, conveyor, compressor);
   }
  
 

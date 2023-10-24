@@ -12,7 +12,7 @@ public class IACubeExtract extends CommandBase{
     }
 
     public void execute(){
-        armIntake.extractCone();
+        armIntake.extractCube();
     }
 
     @Override
