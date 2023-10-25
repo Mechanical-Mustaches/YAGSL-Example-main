@@ -123,7 +123,8 @@ public final class Autos
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor, Compressor compressor){
     List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(1, 3)); //2.5, 3
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("angieBalance", new AutoBalanceCommand(aBuilder));
+    eventMap.put("angieBalance", new Balance(aBuilder));
+    eventMap.put("ajaxBalance", new AutoBalanceCommand(aBuilder));
     //arm ones
     eventMap.put("highCone", new AConeHigh(arm));
     eventMap.put("highCube", new ACubeHigh(arm));

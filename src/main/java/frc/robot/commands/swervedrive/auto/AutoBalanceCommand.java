@@ -1,5 +1,6 @@
 package frc.robot.commands.swervedrive.auto;
 
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -35,8 +36,10 @@ public class AutoBalanceCommand extends CommandBase
   @Override
   public void initialize()
   {
-
+    controller.reset();
   }
+
+
 
   /**
    * The main body of a command.  Called repeatedly while the command is scheduled. (That is, it is called repeatedly
@@ -47,7 +50,8 @@ public class AutoBalanceCommand extends CommandBase
   {
     SmartDashboard.putBoolean("At Tolerance", controller.atSetpoint());
 
-    double translationVal = MathUtil.clamp(controller.calculate(swerveSubsystem.getPitch().getDegrees(), 0.0), -0.5,
+    System.out.println("Pitch: " + swerveSubsystem.getRoll().getDegrees());
+    double translationVal = MathUtil.clamp(controller.calculate(swerveSubsystem.getRoll().getDegrees(), 0.0), -0.5,
                                            0.5);
     swerveSubsystem.drive(new Translation2d(translationVal, 0.0), 0.0, true, false);
   }

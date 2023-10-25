@@ -320,4 +320,8 @@ public class SwerveSubsystem extends SubsystemBase
 
     return autoBuilder.fullAuto(pathGroup);
   }
+
+public Rotation2d getRoll() {
+  return swerveDrive.getRoll();
+}
 }

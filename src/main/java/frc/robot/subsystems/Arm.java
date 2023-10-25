@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase{
     @Override
     public void periodic(){
         sir_eyespy_coder = armMotor.getEncoder();
-        System.out.println(sir_eyespy_coder.getPosition());
+       // System.out.println(sir_eyespy_coder.getPosition());
     }
 
    

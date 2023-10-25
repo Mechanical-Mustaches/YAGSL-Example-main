@@ -67,7 +67,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "angieBalance"
+          "ajaxBalance"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

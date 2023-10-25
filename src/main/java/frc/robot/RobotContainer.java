@@ -72,6 +72,9 @@ public class RobotContainer
   FloorIntake floorIntake = new FloorIntake();
   Compressor compressor = new Compressor();
 
+  //SmartDashboard.putNumber("Gyro Pitch", swerveSubsystem.getPitch().getDegrees());
+
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -80,23 +83,25 @@ public class RobotContainer
     // Configure the trigger bindings
     configureBindings();
     initializeAutoChooser();
+    periodic();
  
     TeleopDrive simClosedFieldRel = new TeleopDrive(
       drivebase,
        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-       () -> driverXbox.getRawAxis(4), () -> true, false, true); //2
+       () -> driverXbox.getRawAxis(4), () -> true, false, false); //2
 
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
         () -> -MathUtil.applyDeadband(driverXbox.getRightY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverXbox.getRightX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRawAxis(0), () -> true, false, true);
+        () -> -driverXbox.getRawAxis(0), () -> true, false, false);
         // () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
         // () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
         // () -> -driverController.getRawAxis(4), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
+
   }
 
   /**
@@ -107,13 +112,19 @@ public class RobotContainer
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
 
- 
+   
+  public void periodic(){
+    System.out.println("Pitch: " + drivebase.getPitch().getDegrees());
+
+  }
 
 
 
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    SmartDashboard.putNumber("Gyro Pitch", drivebase.getPitch().getDegrees());
+    System.out.println("Pitch: " + drivebase.getPitch().getDegrees());
 
     /*
      * DRIVER BUTTON CONTROLS
@@ -200,8 +211,6 @@ public class RobotContainer
       g_SixButt.onFalse(new CStopp(conveyor));
       g_SixButt.onFalse(new IAStop(armIntake));
       g_SixButt.onFalse(new ACollapse(arm));
-
-
   }
 
   /**
