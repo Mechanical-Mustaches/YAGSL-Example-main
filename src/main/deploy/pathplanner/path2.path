@@ -28,29 +28,27 @@
     },
     {
       "anchorPoint": {
-        "x": 7.071243886077517,
-        "y": 4.613343927542556
+        "x": 7.099235766167495,
+        "y": 4.388947780270858
       },
       "prevControl": {
-        "x": 6.523004878714367,
-        "y": 4.613343927542556
+        "x": 6.423280685041181,
+        "y": 4.693603591482717
       },
       "nextControl": {
-        "x": 6.523004878714367,
-        "y": 4.613343927542556
+        "x": 6.423280685041181,
+        "y": 4.693603591482717
       },
       "holonomicAngle": 0.0,
       "isReversal": true,
       "velOverride": null,
-      "isLocked": true,
-      "isStopPoint": false,
+      "isLocked": false,
+      "isStopPoint": true,
       "stopEvent": {
-        "names": [
-          "ConveyorArmCombo"
-        ],
+        "names": [],
         "executionBehavior": "sequential",
-        "waitBehavior": "none",
-        "waitTime": 3.0
+        "waitBehavior": "minimum",
+        "waitTime": 0.25
       }
     },
     {
@@ -59,12 +57,12 @@
         "y": 4.339283892242999
       },
       "prevControl": {
-        "x": 2.8804091796217794,
-        "y": 4.579086423130112
+        "x": 3.2767676017266667,
+        "y": 4.703318167371932
       },
       "nextControl": {
-        "x": 2.8804091796217794,
-        "y": 4.579086423130112
+        "x": 3.2767676017266667,
+        "y": 4.703318167371932
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -82,12 +80,12 @@
     },
     {
       "anchorPoint": {
-        "x": 7.231112240002258,
-        "y": 3.779744653506401
+        "x": 7.080194777966754,
+        "y": 3.2940909587282357
       },
       "prevControl": {
-        "x": 6.134872098804028,
-        "y": 5.504039042266119
+        "x": 6.9945103310634185,
+        "y": 4.864972485289389
       },
       "nextControl": null,
       "holonomicAngle": -55.22216863363611,
@@ -106,8 +104,8 @@
       }
     }
   ],
-  "maxVelocity": 4.0,
-  "maxAcceleration": 3.0,
+  "maxVelocity": 2.5,
+  "maxAcceleration": 2.75,
   "isReversed": null,
   "markers": [
     {
@@ -128,8 +126,9 @@
       "names": [
         "intakeIn1",
         "intakeIn2",
-        "CConvey",
-        "CConvey1"
+        "CConvey1",
+        "CConvey2",
+        "CConvey3"
       ]
     },
     {

@@ -16,8 +16,8 @@ public class Arm extends SubsystemBase{
     SparkMaxPIDController PID;
     private double kDt = 0.004;
     RelativeEncoder sir_eyespy_coder;
-    TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(1000, 750);
-    ProfiledPIDController controller = new ProfiledPIDController(0.1, 0, 0.001, m_Constraints, kDt);
+    TrapezoidProfile.Constraints m_Constraints = new TrapezoidProfile.Constraints(1500, 1000); //1000,750
+    ProfiledPIDController controller = new ProfiledPIDController(0.1, 0, 0, m_Constraints, kDt);
 
     public Arm(){
         armMotor.restoreFactoryDefaults();

@@ -2,21 +2,25 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 5.312691992905353,
-        "y": 5.549715714816045
+        "x": 1.853443516863282,
+        "y": 0.5331476696207564
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.0778614710438985,
-        "y": 5.549715714816045
+        "x": 2.7483699622981206,
+        "y": 0.6949960693270553
       },
-      "holonomicAngle": 0.0,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "armDown",
+          "highCone",
+          "coneOut"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -24,22 +28,79 @@
     },
     {
       "anchorPoint": {
-        "x": 6.054937921841655,
-        "y": 5.5154582104036
+        "x": 7.080194777966754,
+        "y": 0.961569904137434
       },
       "prevControl": {
-        "x": 5.815135390954543,
-        "y": 5.538296546678564
+        "x": 6.531955770603604,
+        "y": 0.961569904137434
+      },
+      "nextControl": {
+        "x": 6.531955770603604,
+        "y": 0.961569904137434
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "ConveyorArmCombo"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 3.0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.0152919165695824,
+        "y": 1.0567748451411407
+      },
+      "prevControl": {
+        "x": 3.0149437971084976,
+        "y": 0.7235575516281686
+      },
+      "nextControl": {
+        "x": 3.0149437971084976,
+        "y": 0.7235575516281686
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [
+          "cubeOut"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.8802644018589705,
+        "y": 1.970742278776719
+      },
+      "prevControl": {
+        "x": 5.623559180610048,
+        "y": 0.628352610624462
       },
       "nextControl": null,
-      "holonomicAngle": -0.7252242990592643,
+      "holonomicAngle": 39.36931724236475,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "sequential",
+        "names": [
+          "intakeIn1",
+          "intakeIn2"
+        ],
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -48,5 +109,50 @@
   "maxVelocity": 4.0,
   "maxAcceleration": 3.0,
   "isReversed": null,
-  "markers": []
+  "markers": [
+    {
+      "position": 0.05,
+      "names": [
+        "armDown"
+      ]
+    },
+    {
+      "position": 0.5,
+      "names": [
+        "intakeOut1",
+        "intakeOut2"
+      ]
+    },
+    {
+      "position": 1.01,
+      "names": [
+        "intakeIn1",
+        "intakeIn2",
+        "CConvey1",
+        "CConvey2",
+        "CConvey3"
+      ]
+    },
+    {
+      "position": 1.5,
+      "names": [
+        "CStop1",
+        "CStop2",
+        "highCube"
+      ]
+    },
+    {
+      "position": 2.05,
+      "names": [
+        "armDown"
+      ]
+    },
+    {
+      "position": 2.6,
+      "names": [
+        "intakeOut1",
+        "intakeOut2"
+      ]
+    }
+  ]
 }

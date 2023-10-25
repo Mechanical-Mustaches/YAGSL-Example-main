@@ -223,7 +223,8 @@ public class RobotContainer
     m_autoChooser.addOption("No Bump 2.5 Peice", "path2");
     m_autoChooser.addOption("No Bump 2 Peice", "path3");
     m_autoChooser.addOption("Leave Grab Balance", "path4");
-    m_autoChooser.addOption("path5", "path5");
+    m_autoChooser.addOption("Bump 2.5 Peice", "path5");
+    m_autoChooser.addOption("Bump 2 Peice", "path6");
     
     SmartDashboard.putData("Auto Selector", m_autoChooser);
     return m_autoChooser.getSelected();

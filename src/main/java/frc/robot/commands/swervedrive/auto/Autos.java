@@ -121,9 +121,9 @@ public final class Autos
 
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor, Compressor compressor){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3)); //2.5, 3
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(1, 3)); //2.5, 3
     HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("balance", new AutoBalanceCommand(aBuilder)); //Ajaxs
+    eventMap.put("angieBalance", new AutoBalanceCommand(aBuilder));
     //arm ones
     eventMap.put("highCone", new AConeHigh(arm));
     eventMap.put("highCube", new ACubeHigh(arm));
@@ -143,13 +143,11 @@ public final class Autos
      * 
     */  
     //convey ones
-    eventMap.put("CConvey", new ACubeConvey(arm));
-    eventMap.put("CConvey1", new IACubeIntake(armIntake)); //true
-    eventMap.put("CConvey", new CGo(conveyor)); //true
+    eventMap.put("CConvey1", new ACubeConvey(arm));
+    eventMap.put("CConvey2", new IACubeIntake(armIntake)); //true
+    eventMap.put("CConvey3", new CGo(conveyor)); //true
     eventMap.put("CStop1", new CStopp(conveyor)); //true
-    eventMap.put("CStop2", new IAStop(armIntake));
-    //eventMap.put("CStop3", new ACollapse(arm));
-    
+    eventMap.put("CStop2", new IAStop(armIntake));  
   
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       aBuilder::getPose,
