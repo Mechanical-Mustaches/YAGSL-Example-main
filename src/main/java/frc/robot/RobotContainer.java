@@ -114,7 +114,6 @@ public class RobotContainer
 
    
   public void periodic(){
-    System.out.println("Pitch: " + drivebase.getPitch().getDegrees());
 
   }
 
@@ -123,16 +122,13 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    SmartDashboard.putNumber("Gyro Pitch", drivebase.getPitch().getDegrees());
-    System.out.println("Pitch: " + drivebase.getPitch().getDegrees());
-
     /*
      * DRIVER BUTTON CONTROLS
      */
 
     new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
  
     JoystickButton d_leftBumper = new JoystickButton(driverXbox, 6);
 

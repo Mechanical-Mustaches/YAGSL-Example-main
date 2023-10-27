@@ -121,7 +121,7 @@ public final class Autos
 
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor, Compressor compressor){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(1, 3)); //2.5, 3
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3)); //2.5, 3
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("angieBalance", new Balance(aBuilder));
     eventMap.put("ajaxBalance", new AutoBalanceCommand(aBuilder));
@@ -136,13 +136,6 @@ public final class Autos
     eventMap.put("intakeIn1", new CompIn(compressor));
     eventMap.put("intakeOut2", new IFCollect(floorIntake));
     eventMap.put("intakeIn2", new IFStop(floorIntake));
-    /* 
-    eventMap.put("compOut", new CompOut(compressor));
-    eventMap.put("compIn", new CompIn(compressor));
-    eventMap.put("IFCollect", new IFCollect(floorIntake));
-    eventMap.put("IFStop", new IFStop(floorIntake));
-     * 
-    */  
     //convey ones
     eventMap.put("CConvey1", new ACubeConvey(arm));
     eventMap.put("CConvey2", new IACubeIntake(armIntake)); //true

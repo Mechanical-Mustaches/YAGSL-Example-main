@@ -43,8 +43,7 @@
       "stopEvent": {
         "names": [
           "intakeIn1",
-          "intakeIn2",
-          "ajaxBalance"
+          "intakeIn2"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
