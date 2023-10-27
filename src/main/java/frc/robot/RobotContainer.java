@@ -227,7 +227,10 @@ public class RobotContainer
     m_autoChooser.setDefaultOption("Test Path", "path1");
     m_autoChooser.addOption("No Bump 2.5 Peice", "path2");
     m_autoChooser.addOption("No Bump 2 Peice", "path3");
-    m_autoChooser.addOption("Leave Grab Balance", "path4");
+    m_autoChooser.addOption("Balance Grab", "path4");
+    m_autoChooser.addOption("Balance Leave", "path7");
+    m_autoChooser.addOption("Balance", "path8");
+    m_autoChooser.addOption("Balance Blind", "path9");
     m_autoChooser.addOption("Bump 2.5 Peice", "path5");
     m_autoChooser.addOption("Bump 2 Peice", "path6");
     
