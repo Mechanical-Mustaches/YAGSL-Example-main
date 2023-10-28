@@ -193,11 +193,12 @@ public class RobotContainer
       g_ThreeButt.onTrue(new ACubeMid(arm));
       g_ThreeButt.onFalse(new ACollapse(arm));
 
-      g_FourButt.onTrue(new ACubeHuman(arm));
+/*    g_FourButt.onTrue(new ACubeHuman(arm));
       g_FourButt.onTrue(new IACubeIntake(armIntake));
       g_FourButt.onFalse(new IAStop(armIntake));
       g_FourButt.onFalse(new ACollapse(arm));
-  
+  */
+      
       g_FiveButt.onTrue(new IACubeExtract(armIntake));
       g_FiveButt.onFalse(new IAStop(armIntake));
 
@@ -231,7 +232,6 @@ public class RobotContainer
     m_autoChooser.addOption("Balance Leave", "path7");
     m_autoChooser.addOption("Balance", "path8");
     m_autoChooser.addOption("Balance Blind", "path9");
-    m_autoChooser.addOption("Bump 2.5 Peice", "path5");
     m_autoChooser.addOption("Bump 2 Peice", "path6");
     
     SmartDashboard.putData("Auto Selector", m_autoChooser);

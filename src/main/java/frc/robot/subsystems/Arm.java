@@ -55,7 +55,7 @@ public class Arm extends SubsystemBase{
     }
 
     public boolean isConeHighSetPoint(){
-        if(sir_eyespy_coder.getPosition() > 36){ 
+        if(sir_eyespy_coder.getPosition() > 38){ 
             return true;
         }
        return false;
@@ -129,7 +129,7 @@ public class Arm extends SubsystemBase{
     }
 
     public void armConveyCube(){
-        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), 0));
+        armMotor.set(controller.calculate(sir_eyespy_coder.getPosition(), -3));
     }
 
     /*

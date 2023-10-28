@@ -23,7 +23,7 @@ public class AutoBalanceCommand extends CommandBase
   {
     this.swerveSubsystem = swerveSubsystem;
     controller = new PIDController(1.0, 0.0, 0.0);
-    controller.setTolerance(1);
+    controller.setTolerance(0.1);
     controller.setSetpoint(0.0);
     // each subsystem used by the command must be passed into the
     // addRequirements() method (which takes a vararg of Subsystem)
@@ -50,8 +50,8 @@ public class AutoBalanceCommand extends CommandBase
   {
     SmartDashboard.putBoolean("At Tolerance", controller.atSetpoint());
 
-    System.out.println("Pitch: " + swerveSubsystem.getRoll().getDegrees());
-    double translationVal = MathUtil.clamp(controller.calculate(swerveSubsystem.getRoll().getDegrees(), 0.0), -0.5,
+    System.out.println("Pitch: " + -1*swerveSubsystem.getRoll().getDegrees());
+    double translationVal = MathUtil.clamp(controller.calculate((swerveSubsystem.getRoll().getDegrees()*-1), 0.0), -0.5,
                                            0.5);
     swerveSubsystem.drive(new Translation2d(translationVal, 0.0), 0.0, true, false);
   }

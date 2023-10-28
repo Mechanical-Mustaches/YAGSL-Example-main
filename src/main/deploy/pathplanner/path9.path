@@ -12,7 +12,7 @@
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": 2.0,
+      "velOverride": 1.0,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -27,17 +27,17 @@
     },
     {
       "anchorPoint": {
-        "x": 3.928911230744078,
-        "y": 3.3226524410293483
+        "x": 5.415464506142688,
+        "y": 3.322977928007138
       },
       "prevControl": {
-        "x": 2.683750559456968,
-        "y": 3.3226524410293483
+        "x": 4.170303834855578,
+        "y": 3.322977928007138
       },
       "nextControl": null,
       "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 1.0,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {

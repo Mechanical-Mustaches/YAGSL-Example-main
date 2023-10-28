@@ -121,7 +121,7 @@ public final class Autos
 
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName, Arm arm, ArmIntake armIntake, FloorIntake floorIntake, Conveyor conveyor, Compressor compressor){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2.5, 3)); //2.5, 3
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(2, 3)); //2.5, 3
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("angieBalance", new Balance(aBuilder));
     eventMap.put("ajaxBalance", new AutoBalanceCommand(aBuilder));
