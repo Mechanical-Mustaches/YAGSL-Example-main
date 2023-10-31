@@ -231,7 +231,6 @@ public class RobotContainer
     m_autoChooser.addOption("Balance Grab", "path4");
     m_autoChooser.addOption("Balance Leave", "path7");
     m_autoChooser.addOption("Balance", "path8");
-    m_autoChooser.addOption("Balance Blind", "path9");
     m_autoChooser.addOption("Bump 2 Peice", "path6");
     
     SmartDashboard.putData("Auto Selector", m_autoChooser);
