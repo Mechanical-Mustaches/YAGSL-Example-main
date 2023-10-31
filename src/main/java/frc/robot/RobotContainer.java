@@ -23,6 +23,7 @@ import frc.robot.commands.swervedrive.auto.Autos;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.subsystems.LedLights;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -47,6 +48,7 @@ public class RobotContainer
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
+  LedLights m_lights = new LedLights();
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
 
@@ -75,6 +77,8 @@ public class RobotContainer
         // () -> -driverController.getRawAxis(4), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
+
+    m_lights.setColor(100, 0, 0);
   }
 
   /**
@@ -107,6 +111,8 @@ public class RobotContainer
   //   // An example command will be run in autonomous
   //   return Autos.exampleAuto(drivebase);
   // }
+
+
 
   private String initializeAutoChooser() {
     m_autoChooser.setDefaultOption("path1", "path1");
