@@ -6,9 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,6 +33,9 @@ import java.io.File;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -50,9 +55,21 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
   LedLights m_lights = new LedLights();
-  ColorSensor m_colorSensor = new ColorSensor();
+  //ColorSensor m_colorSensor = new ColorSensor();
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
+
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private final ColorMatch m_colorMatcher = new ColorMatch();
+  
+  private final Color kBlueTarget = new Color(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = new Color(0.197, 0.561, 0.240);
+  private final Color kRedTarget = new Color(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = new Color(0.361, 0.524, 0.113);
+
+
+
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,7 +79,9 @@ public class RobotContainer
     // Configure the trigger bindings
     configureBindings();
     initializeAutoChooser();
-    ColorSensorData();
+    initialize();
+    periodic();
+    //ColorSensorData();
  
     TeleopDrive simClosedFieldRel = new TeleopDrive(
       drivebase,
@@ -82,6 +101,43 @@ public class RobotContainer
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
 
     m_lights.setColor(100, 0, 100);
+
+  }
+
+  public void initialize(){
+    m_colorMatcher.addColorMatch(kBlueTarget);
+    m_colorMatcher.addColorMatch(kGreenTarget);
+    m_colorMatcher.addColorMatch(kRedTarget);
+    m_colorMatcher.addColorMatch(kYellowTarget);  
+  }
+
+  public void periodic(){
+    Color detectedColor = m_colorSensor.getColor();
+
+    String colorString;
+    ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
+
+    if (match.color == kBlueTarget){
+      colorString = "blue";
+    }
+    else if(match.color == kRedTarget){
+      colorString = "red";
+    }
+    else if(match.color == kGreenTarget){
+      colorString = "green";
+    }
+    else if(match.color == kYellowTarget){
+      colorString = "yellow";
+    }
+    else{
+      colorString = "unknown";
+    }
+
+    SmartDashboard.putNumber("C_Red", detectedColor.red);
+    SmartDashboard.putNumber("C_Green", detectedColor.green);
+    SmartDashboard.putNumber("C_Blue", detectedColor.blue);
+    SmartDashboard.putNumber("C_Confidence", match.confidence);
+    SmartDashboard.putString("C_Detected Color", colorString);
 
   }
 
@@ -131,13 +187,13 @@ public class RobotContainer
     return Autos.autoBuilderBase(drivebase, initializeAutoChooser());
   }
 
-  public void ColorSensorData(){
-    SmartDashboard.putNumber("S_Red", m_colorSensor.detectColor.red);
-    SmartDashboard.putNumber("S_Green", m_colorSensor.detectColor.green);
-    SmartDashboard.putNumber("S_Blue", m_colorSensor.detectColor.blue);
-    SmartDashboard.putNumber("S_Confidence", m_colorSensor.match.confidence);
-    SmartDashboard.putString("S_Detected Color", m_colorSensor.colorString);
-  }
+  // public void ColorSensorData(){
+  //   SmartDashboard.putNumber("S_Red", m_colorSensor.detectColor.red);
+  //   SmartDashboard.putNumber("S_Green", m_colorSensor.detectColor.green);
+  //   SmartDashboard.putNumber("S_Blue", m_colorSensor.detectColor.blue);
+  //   SmartDashboard.putNumber("S_Confidence", m_colorSensor.match.confidence);
+  //   SmartDashboard.putString("S_Detected Color", m_colorSensor.colorString);
+  // }
  
 
   public void setDriveMode()
