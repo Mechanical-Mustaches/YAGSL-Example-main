@@ -81,7 +81,7 @@ public class RobotContainer
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
 
-    m_lights.setColor(100, 0, 0);
+    m_lights.setColor(100, 0, 100);
 
   }
 
@@ -132,7 +132,11 @@ public class RobotContainer
   }
 
   public void ColorSensorData(){
-    SmartDashboard.putString("Detected Color", m_colorSensor.getDetectedColors());
+    SmartDashboard.putNumber("S_Red", m_colorSensor.detectColor.red);
+    SmartDashboard.putNumber("S_Green", m_colorSensor.detectColor.green);
+    SmartDashboard.putNumber("S_Blue", m_colorSensor.detectColor.blue);
+    SmartDashboard.putNumber("S_Confidence", m_colorSensor.match.confidence);
+    SmartDashboard.putString("S_Detected Color", m_colorSensor.colorString);
   }
  
 
