@@ -24,6 +24,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.LedLights;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -49,6 +50,7 @@ public class RobotContainer
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
   LedLights m_lights = new LedLights();
+  ColorSensor m_colorSensor = new ColorSensor();
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
 
@@ -60,6 +62,7 @@ public class RobotContainer
     // Configure the trigger bindings
     configureBindings();
     initializeAutoChooser();
+    ColorSensorData();
  
     TeleopDrive simClosedFieldRel = new TeleopDrive(
       drivebase,
@@ -79,6 +82,7 @@ public class RobotContainer
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
 
     m_lights.setColor(100, 0, 0);
+
   }
 
   /**
@@ -122,12 +126,14 @@ public class RobotContainer
     SmartDashboard.putData("Auto Selector", m_autoChooser);
     return m_autoChooser.getSelected();
   }
-
+ 
   public Command getAutoPaths(){
     return Autos.autoBuilderBase(drivebase, initializeAutoChooser());
   }
 
-  
+  public void ColorSensorData(){
+    SmartDashboard.putString("Detected Color", m_colorSensor.getDetectedColors());
+  }
  
 
   public void setDriveMode()
