@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class AutoAim extends CommandBase
+public class aprilPID extends CommandBase
 {
 
   private final SwerveSubsystem swerveSubsystem;
@@ -15,7 +15,7 @@ public class AutoAim extends CommandBase
   private final PIDController   controllerY;
   private final PIDController   controllerR;
 
-  public AutoAim(SwerveSubsystem swerveSubsystem)
+  public aprilPID(SwerveSubsystem swerveSubsystem)
   {
     this.swerveSubsystem = swerveSubsystem;
     controllerX = new PIDController(1.0, 0.0, 0.0);

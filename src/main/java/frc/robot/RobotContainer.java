@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.Autos;
-import frc.robot.commands.swervedrive.auto.AutoAim;
+import frc.robot.commands.swervedrive.auto.aprilPID;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
@@ -92,7 +92,7 @@ public class RobotContainer
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
-    new JoystickButton(driverXbox, 6).whileTrue(new AutoAim(drivebase));
+    new JoystickButton(driverXbox, 6).whileTrue(new aprilPID(drivebase));
 
     System.out.println("Strafe: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[0]);
     System.out.println("Forward: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]);
