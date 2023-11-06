@@ -1,0 +1,70 @@
+package frc.robot.commands.swervedrive.auto;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.LimelightHelpers;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+
+public class AutoAim extends CommandBase
+{
+
+  private final SwerveSubsystem swerveSubsystem;
+  private final PIDController   controllerX;
+  private final PIDController   controllerY;
+  private final PIDController   controllerR;
+
+  public AutoAim(SwerveSubsystem swerveSubsystem)
+  {
+    this.swerveSubsystem = swerveSubsystem;
+    controllerX = new PIDController(1.0, 0.0, 0.0);
+    controllerY = new PIDController(1.0, 0.0, 0.0);
+    controllerR = new PIDController(1.0, 0.0, 0.0);
+
+    controllerX.setTolerance(0.1);
+    controllerY.setTolerance(0.1);
+    controllerR.setTolerance(0.1);
+
+    controllerX.setSetpoint(0.0);
+    controllerY.setSetpoint(0.0);
+    controllerR.setSetpoint(0.0);
+
+    addRequirements(this.swerveSubsystem);
+  }
+
+  @Override
+  public void execute()
+  {
+    /*
+     * If the limelight can see the target, run the drive function
+     */
+    if(LimelightHelpers.getTV("limelight")) {
+      System.out.println("Control Loop Running!");
+
+      //PID Loop changes limelight values into new varibles
+      double translationX = MathUtil.clamp(controllerX.calculate(
+        LimelightHelpers.getCameraPose_TargetSpace("limelight")[2], 
+        0.0), -0.5,0.5);
+      double translationY = MathUtil.clamp(controllerY.calculate(
+        LimelightHelpers.getCameraPose_TargetSpace("limelight")[0], 
+        0.0), -0.5,0.5);
+      double rotation = MathUtil.clamp(controllerR.calculate(
+        LimelightHelpers.getCameraPose_TargetSpace("limelight")[4], 
+        0.0), -0.5,0.5);
+
+      //Drives robot from new varibles
+      swerveSubsystem.drive(
+        new Translation2d(translationX, translationY),
+        rotation, 
+        true, 
+        false);
+    }
+  }
+
+  @Override
+  public boolean isFinished()
+  {
+    return (controllerX.atSetpoint() && controllerY.atSetpoint() && controllerR.atSetpoint() && LimelightHelpers.getTV("limelight"));
+  }
+}

@@ -13,19 +13,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.Autos;
+import frc.robot.commands.swervedrive.auto.AutoAim;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -75,6 +74,7 @@ public class RobotContainer
         // () -> -driverController.getRawAxis(4), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
+    
   }
 
   /**
@@ -91,9 +91,15 @@ public class RobotContainer
     new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
     // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    
+    new JoystickButton(driverXbox, 6).whileTrue(new AutoAim(drivebase));
 
+    System.out.println("Strafe: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[0]);
+    System.out.println("Forward: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]);
+    System.out.println("Rotation: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]);
+    }
+  
 
-  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
