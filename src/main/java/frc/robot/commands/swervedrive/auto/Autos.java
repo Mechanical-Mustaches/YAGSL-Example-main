@@ -17,9 +17,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import frc.robot.LimelightHelpers;
 import frc.robot.Constants.Auton;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.util.HashMap;
@@ -28,10 +27,6 @@ import java.util.List;
 
 public final class Autos
 {
-
-  /**
-   * April Tag field layout.
-   */
   private static AprilTagFieldLayout aprilTagField = null;
 
   private Autos()
@@ -39,10 +34,32 @@ public final class Autos
     throw new UnsupportedOperationException("This is a utility class!");
   }
 
-  public static CommandBase driveAndSpin(SwerveSubsystem swerve)
+  //Example on the fly path, WIP for limelight integration
+  public static CommandBase exampleAuto(SwerveSubsystem swerve)
   {
-    return Commands.sequence(
-        new RepeatCommand(new InstantCommand(() -> swerve.drive(new Translation2d(1, 0), 5, true, true), swerve)));
+    PathPlannerTrajectory path;
+      path = PathPlanner.generatePath(
+          new PathConstraints(1, 1),
+          // Translation - Heading - Holonomic 
+          new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+          new PathPoint(new Translation2d(1, 1), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+          );
+    return Commands.sequence(new FollowTrajectory(swerve, path, true));
+  }
+
+  //lmao there is no way this will work
+  public static CommandBase limelightAuto(SwerveSubsystem swerve)
+  {
+    PathPlannerTrajectory path;
+      path = PathPlanner.generatePath(
+          new PathConstraints(1, 1),
+          new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
+          new PathPoint(
+            new Translation2d((LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]), (LimelightHelpers.getCameraPose_TargetSpace("limelight")[0])),  //Translation
+            Rotation2d.fromDegrees(0),  //Heading
+            Rotation2d.fromDegrees(LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]))  //Holonomic
+          );
+    return Commands.sequence(new FollowTrajectory(swerve, path, true));
   }
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){

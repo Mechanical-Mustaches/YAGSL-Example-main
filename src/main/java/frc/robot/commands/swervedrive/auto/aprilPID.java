@@ -18,18 +18,18 @@ public class aprilPID extends CommandBase
   public aprilPID(SwerveSubsystem swerveSubsystem)
   {
     this.swerveSubsystem = swerveSubsystem;
-    controllerX = new PIDController(1.0, 0.0, 0.0);
-    controllerY = new PIDController(1.0, 0.0, 0.0);
-    controllerR = new PIDController(1.0, 0.0, 0.0);
+    controllerX = new PIDController(0.8, 0.0, 0.0);
+    controllerY = new PIDController(0.8, 0.0, 0.0);
+    controllerR = new PIDController(0.05, 0.0, 0.0); //0.1
 
-    controllerX.setTolerance(0.1);
-    controllerY.setTolerance(0.1);
+    controllerX.setTolerance(0.05);
+    controllerY.setTolerance(0.05);
     controllerR.setTolerance(0.1);
 
-    controllerX.setSetpoint(0.0);
+    controllerX.setSetpoint(-0.5);
     controllerY.setSetpoint(0.0);
     controllerR.setSetpoint(0.0);
-
+    
     addRequirements(this.swerveSubsystem);
   }
 
@@ -40,24 +40,29 @@ public class aprilPID extends CommandBase
      * If the limelight can see the target, run the drive function
      */
     if(LimelightHelpers.getTV("limelight")) {
-      System.out.println("Control Loop Running!");
 
       //PID Loop changes limelight values into new varibles
       double translationX = MathUtil.clamp(controllerX.calculate(
         LimelightHelpers.getCameraPose_TargetSpace("limelight")[2], 
-        0.0), -0.5,0.5);
+        -0.5), -2,2);
       double translationY = MathUtil.clamp(controllerY.calculate(
         LimelightHelpers.getCameraPose_TargetSpace("limelight")[0], 
-        0.0), -0.5,0.5);
+        0.0), -2,2);
       double rotation = MathUtil.clamp(controllerR.calculate(
         LimelightHelpers.getCameraPose_TargetSpace("limelight")[4], 
         0.0), -0.5,0.5);
 
       //Drives robot from new varibles
       swerveSubsystem.drive(
-        new Translation2d(translationX, translationY),
-        rotation, 
-        true, 
+        new Translation2d(translationX, -translationY),
+        -rotation, 
+        false, 
+        false);
+    } else {
+      swerveSubsystem.drive(
+        new Translation2d(0.0, 0.0),
+        0.0, 
+        false, 
         false);
     }
   }
@@ -65,6 +70,7 @@ public class aprilPID extends CommandBase
   @Override
   public boolean isFinished()
   {
-    return (controllerX.atSetpoint() && controllerY.atSetpoint() && controllerR.atSetpoint() && LimelightHelpers.getTV("limelight"));
+    return false;
+    //return (controllerX.atSetpoint() && controllerY.atSetpoint() && controllerR.atSetpoint() && LimelightHelpers.getTV("limelight"));
   }
 }

@@ -13,21 +13,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.Autos;
 import frc.robot.commands.swervedrive.auto.aprilPID;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -46,8 +40,6 @@ public class RobotContainer
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
-
-  private final SendableChooser<String> m_autoChooser = new SendableChooser<String>();
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -69,9 +61,6 @@ public class RobotContainer
         () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -driverXbox.getRawAxis(4), () -> true, false, false);
-        // () -> -MathUtil.applyDeadband(driverController.getY(), OperatorConstants.LEFT_Y_DEADBAND),
-        // () -> -MathUtil.applyDeadband(driverController.getX(), OperatorConstants.LEFT_X_DEADBAND),
-        // () -> -driverController.getRawAxis(4), () -> true, false, true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
     
@@ -86,49 +75,36 @@ public class RobotContainer
    */
   private void configureBindings()
   {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
+    // -- Key bindings -- 
     new JoystickButton(driverXbox, 4).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 7).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+
+    new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
-    new JoystickButton(driverXbox, 6).whileTrue(new aprilPID(drivebase));
+    new JoystickButton(driverXbox, 7).whileTrue(new aprilPID(drivebase));
+
+    new JoystickButton(driverXbox, 6).whileTrue(new RepeatCommand(Autos.exampleAuto(drivebase)));
 
     System.out.println("Strafe: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[0]);
     System.out.println("Forward: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]);
     System.out.println("Rotation: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]);
     }
-  
 
+// -- Auto Chooser --
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-
-
-  // public Command getAutonomousCommand()
-  // {
-  //   // An example command will be run in autonomous
-  //   return Autos.exampleAuto(drivebase);
-  // }
+  private final SendableChooser<String> autoChooser = new SendableChooser<String>();
 
   private String initializeAutoChooser() {
-    m_autoChooser.setDefaultOption("path1", "path1");
-    m_autoChooser.addOption("path2", "path2");
-    m_autoChooser.addOption("path3", "path3");
+    autoChooser.setDefaultOption("path1", "path1");
+    autoChooser.addOption("path2", "path2");
+    autoChooser.addOption("path3", "path3");
     
-    SmartDashboard.putData("Auto Selector", m_autoChooser);
-    return m_autoChooser.getSelected();
+    SmartDashboard.putData("Auto Selector", autoChooser);
+    return autoChooser.getSelected();
   }
 
   public Command getAutoPaths(){
     return Autos.autoBuilderBase(drivebase, initializeAutoChooser());
   }
-
-  
- 
 
   public void setDriveMode()
   {
