@@ -80,13 +80,12 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
-    new JoystickButton(driverXbox, 7).whileTrue(new aprilPID(drivebase));
+    //new JoystickButton(driverXbox, 7).whileTrue(new aprilPID(drivebase));
+    new JoystickButton(driverXbox, 7).onTrue(Autos.exampleAuto(drivebase));
 
-    new JoystickButton(driverXbox, 6).whileTrue(new RepeatCommand(Autos.exampleAuto(drivebase)));
-
-    System.out.println("Strafe: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[0]);
-    System.out.println("Forward: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]);
-    System.out.println("Rotation: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]);
+    //System.out.println("Strafe: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[0]);
+    //System.out.println("Forward: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]);
+    //System.out.println("Rotation: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]);
     }
 
 // -- Auto Chooser --

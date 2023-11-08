@@ -37,29 +37,15 @@ public final class Autos
   //Example on the fly path, WIP for limelight integration
   public static CommandBase exampleAuto(SwerveSubsystem swerve)
   {
+    System.out.println((swerve.getPose()).getX());
+    System.out.println((swerve.getPose()).getY());
     PathPlannerTrajectory path;
       path = PathPlanner.generatePath(
-          new PathConstraints(1, 1),
-          // Translation - Heading - Holonomic 
+          new PathConstraints(4, 3),
           new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-          new PathPoint(new Translation2d(1, 1), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
+          new PathPoint(new Translation2d(8, 4), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
           );
-    return Commands.sequence(new FollowTrajectory(swerve, path, true));
-  }
-
-  //lmao there is no way this will work
-  public static CommandBase limelightAuto(SwerveSubsystem swerve)
-  {
-    PathPlannerTrajectory path;
-      path = PathPlanner.generatePath(
-          new PathConstraints(1, 1),
-          new PathPoint(new Translation2d(0, 0), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)),
-          new PathPoint(
-            new Translation2d((LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]), (LimelightHelpers.getCameraPose_TargetSpace("limelight")[0])),  //Translation
-            Rotation2d.fromDegrees(0),  //Heading
-            Rotation2d.fromDegrees(LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]))  //Holonomic
-          );
-    return Commands.sequence(new FollowTrajectory(swerve, path, true));
+    return Commands.sequence(new FollowTrajectory(swerve, path, false));
   }
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){
@@ -79,7 +65,6 @@ public final class Autos
       aBuilder
   );
   return Commands.sequence(autoBuilder.fullAuto(master));
-
   }
 
   /**
