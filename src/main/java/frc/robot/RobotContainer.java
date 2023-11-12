@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -81,11 +84,8 @@ public class RobotContainer
     new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
     //new JoystickButton(driverXbox, 7).whileTrue(new aprilPID(drivebase));
-    new JoystickButton(driverXbox, 7).onTrue(Autos.exampleAuto(drivebase));
-
-    //System.out.println("Strafe: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[0]);
-    //System.out.println("Forward: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[2]);
-    //System.out.println("Rotation: " + LimelightHelpers.getCameraPose_TargetSpace("limelight")[4]);
+    new JoystickButton(driverXbox, 6).onTrue((new InstantCommand(drivebase::addFakeVisionReading)));
+    new JoystickButton(driverXbox, 7).onTrue(Autos.driveToAprilTag(drivebase, 1, Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0), new Translation2d(-1, 0)));
     }
 
 // -- Auto Chooser --

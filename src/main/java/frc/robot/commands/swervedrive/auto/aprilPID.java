@@ -18,15 +18,15 @@ public class aprilPID extends CommandBase
   public aprilPID(SwerveSubsystem swerveSubsystem)
   {
     this.swerveSubsystem = swerveSubsystem;
-    controllerX = new PIDController(0.8, 0.0, 0.0);
-    controllerY = new PIDController(0.8, 0.0, 0.0);
-    controllerR = new PIDController(0.05, 0.0, 0.0); //0.1
+    controllerX = new PIDController(3, 0.0, 0.0);
+    controllerY = new PIDController(3, 0.0, 0.0);
+    controllerR = new PIDController(0.1, 0.0, 0); //0.1
 
     controllerX.setTolerance(0.05);
     controllerY.setTolerance(0.05);
     controllerR.setTolerance(0.1);
 
-    controllerX.setSetpoint(-0.5);
+    controllerX.setSetpoint(-1);
     controllerY.setSetpoint(0.0);
     controllerR.setSetpoint(0.0);
     
@@ -44,13 +44,13 @@ public class aprilPID extends CommandBase
       //PID Loop changes limelight values into new varibles
       double translationX = MathUtil.clamp(controllerX.calculate(
         LimelightHelpers.getCameraPose_TargetSpace("limelight")[2], 
-        -0.5), -2,2);
+        -1), -4,4);
       double translationY = MathUtil.clamp(controllerY.calculate(
         LimelightHelpers.getCameraPose_TargetSpace("limelight")[0], 
-        0.0), -2,2);
+        0.0), -4,4);
       double rotation = MathUtil.clamp(controllerR.calculate(
         LimelightHelpers.getCameraPose_TargetSpace("limelight")[4], 
-        0.0), -0.5,0.5);
+        0.0), -2,2);
 
       //Drives robot from new varibles
       swerveSubsystem.drive(

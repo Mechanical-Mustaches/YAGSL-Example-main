@@ -133,6 +133,7 @@ public class SwerveSubsystem extends SubsystemBase
     return swerveDrive.getPose();
   }
 
+
   /**
    * Set chassis speeds with closed-loop velocity control.
    *
@@ -276,7 +277,11 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void addFakeVisionReading()
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp(), true, 4);
+    swerveDrive.addVisionMeasurement(new Pose2d(10, 5, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
+  }
+  public void addVisionReading()
+  {
+    swerveDrive.addVisionMeasurement(new Pose2d(10, 5, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
   }
 
   /**

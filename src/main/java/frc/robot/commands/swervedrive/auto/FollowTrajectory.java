@@ -17,7 +17,8 @@ public class FollowTrajectory extends SequentialCommandGroup
     {
       drivebase.resetOdometry(trajectory.getInitialHolonomicPose());
     }
-
+    System.out.println("robot x: " + (drivebase.getPose()).getX());
+    System.out.println("robot y: " + (drivebase.getPose()).getY());
     addCommands(
         new PPSwerveControllerCommand(
             trajectory,
