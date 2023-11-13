@@ -18,6 +18,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,7 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import java.lang.Math;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -94,11 +97,17 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+    if (LimelightHelpers.getTV("limelight")) {
+      this.addVisionReading(LimelightHelpers.getBotPose("limelight")[0]+8.274050,
+                            LimelightHelpers.getBotPose("limelight")[1]+4.025900,
+                            (-LimelightHelpers.getBotPose("limelight")[5]));
+    }
   }
 
   @Override
   public void simulationPeriodic()
   {
+    System.out.println("No limelight configration, running simulation");
   }
 
   /**
@@ -279,9 +288,9 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveDrive.addVisionMeasurement(new Pose2d(10, 5, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
   }
-  public void addVisionReading()
+  public void addVisionReading(double X, double Y, double Yaw)
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(10, 5, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
+    swerveDrive.addVisionMeasurement(new Pose2d(X, Y, Rotation2d.fromDegrees(Yaw)), Timer.getFPGATimestamp(), true, 4);
   }
 
   /**
