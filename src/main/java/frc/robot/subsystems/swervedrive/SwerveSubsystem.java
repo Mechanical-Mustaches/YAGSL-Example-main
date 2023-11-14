@@ -7,8 +7,12 @@ package frc.robot.subsystems.swervedrive;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -44,6 +48,8 @@ public class SwerveSubsystem extends SubsystemBase
    * paths with events.
    */
   private       SwerveAutoBuilder autoBuilder = null;
+  private static AprilTagFieldLayout aprilTagField = null;
+  private PathPlannerTrajectory path;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -293,6 +299,7 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.addVisionMeasurement(new Pose2d(X, Y, Rotation2d.fromDegrees(Yaw)), Timer.getFPGATimestamp(), true, 4);
   }
 
+  
   /**
    * Factory to fetch the PathPlanner command to follow the defined path.
    *
@@ -306,32 +313,21 @@ public class SwerveSubsystem extends SubsystemBase
    * @param useAllianceColor Automatically transform the path based on alliance color.
    * @return PathPlanner command to follow the given path.
    */
-  public Command creatPathPlannerCommand(String path, PathConstraints constraints, Map<String, Command> eventMap,
-                                         PIDConstants translation, PIDConstants rotation, boolean useAllianceColor)
+  public PathPlannerTrajectory createPath(int id, Rotation2d rotation, Rotation2d holonomic, Translation2d offset)
   {
-    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(path, constraints);
-//    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-//      Pose2d supplier,
-//      Pose2d consumer- used to reset odometry at the beginning of auto,
-//      PID constants to correct for translation error (used to create the X and Y PID controllers),
-//      PID constants to correct for rotation error (used to create the rotation controller),
-//      Module states consumer used to output to the drive subsystem,
-//      Should the path be automatically mirrored depending on alliance color. Optional- defaults to true
-//   )
-    if (autoBuilder == null)
-    {
-      autoBuilder = new SwerveAutoBuilder(
-          swerveDrive::getPose,
-          swerveDrive::resetOdometry,
-          translation,
-          rotation,
-          swerveDrive::setChassisSpeeds,
-          eventMap,
-          useAllianceColor,
-          this
-      );
-    }
-
-    return autoBuilder.fullAuto(pathGroup);
+      if (aprilTagField == null) {
+        try {
+          aprilTagField = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
+        } catch (Exception ignored) {
+        }
+      }
+      path = PathPlanner.generatePath(new PathConstraints(4, 4), false,
+      new PathPoint(new Translation2d(10, 5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(90)),
+      new PathPoint(new Translation2d(10, 10), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(90)));
+          //PathPoint.fromCurrentHolonomicState(this.getPose(),this.getRobotVelocity()),
+          //new PathPoint(aprilTagField.getTagPose(id).get()
+            //  .getTranslation()
+              //.toTranslation2d().plus(offset), rotation, holonomic));
+    return path;
   }
 }
