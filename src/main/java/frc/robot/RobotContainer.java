@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.*;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.swervedrive.drivebase.aprilRotation;
 import frc.robot.commands.swervedrive.drivebase.onTheFly;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
@@ -83,10 +84,16 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
-    //new JoystickButton(driverXbox, 7).whileTrue(new aprilPID(drivebase));
-    new JoystickButton(driverXbox, 6).onTrue((new InstantCommand(drivebase::addFakeVisionReading)));
+    new JoystickButton(driverXbox, 7).whileTrue(
+      new RepeatCommand(new aprilRotation(
+        drivebase,
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRawAxis(4), () -> true, false)
+    ));
+    //new JoystickButton(driverXbox, 6).onTrue((new InstantCommand(drivebase::addFakeVisionReading)));
 
-    new JoystickButton(driverXbox, 7).whileTrue(new onTheFly(drivebase, Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0), new Translation2d(-1,0), 4));
+    //new JoystickButton(driverXbox, 7).whileTrue(new onTheFly(drivebase, Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0), new Translation2d(-1,0), 4));
   }
 
 

@@ -15,6 +15,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -103,11 +104,6 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    if (LimelightHelpers.getTV("limelight")) {
-      this.addVisionReading(LimelightHelpers.getBotPose("limelight")[0]+8.274050,
-                            LimelightHelpers.getBotPose("limelight")[1]+4.025900,
-                            (-LimelightHelpers.getBotPose("limelight")[5]));
-    }
   }
 
   @Override
@@ -296,7 +292,7 @@ public class SwerveSubsystem extends SubsystemBase
   }
   public void addVisionReading(double X, double Y, double Yaw)
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(X, Y, Rotation2d.fromDegrees(Yaw)), Timer.getFPGATimestamp(), true, 4);
+    swerveDrive.resetOdometry(new Pose2d(X, Y, this.getHeading()));
   }
 
   
