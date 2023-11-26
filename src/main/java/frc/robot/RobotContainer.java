@@ -13,18 +13,16 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.*;
+import frc.robot.commands.swervedrive.drivebase.onTheFly;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.aprilRotation;
-import frc.robot.commands.swervedrive.drivebase.onTheFly;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
@@ -84,16 +82,22 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
-    new JoystickButton(driverXbox, 7).whileTrue(
+    new JoystickButton(driverXbox, 6).whileTrue(
       new RepeatCommand(new aprilRotation(
         drivebase,
-        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRawAxis(4), () -> true, false)
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverXbox.getRawAxis(4), () -> true, false)
     ));
-    //new JoystickButton(driverXbox, 6).onTrue((new InstantCommand(drivebase::addFakeVisionReading)));
 
-    //new JoystickButton(driverXbox, 7).whileTrue(new onTheFly(drivebase, Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0), new Translation2d(-1,0), 4));
+    new JoystickButton(driverXbox, 8).onTrue(new onTheFly(
+    drivebase,
+    4,
+    Rotation2d.fromDegrees(0),
+    Rotation2d.fromDegrees(0),
+    new Translation2d(-1, 0)
+    ));
+
   }
 
 

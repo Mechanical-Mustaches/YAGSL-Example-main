@@ -63,7 +63,5 @@ public class aprilRotation extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
-    // return (controllerX.atSetpoint() && controllerY.atSetpoint() &&
-    // controllerR.atSetpoint() && LimelightHelpers.getTV("limelight"));
   }
 }

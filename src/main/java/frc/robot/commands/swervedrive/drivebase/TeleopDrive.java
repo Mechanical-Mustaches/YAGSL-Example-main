@@ -6,7 +6,6 @@ package frc.robot.commands.swervedrive.drivebase;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -72,7 +71,7 @@ public class TeleopDrive extends CommandBase
   @Override
   public void execute()
   {
-    SmartDashboard.putString("Drivebase mode", "teleop");
+    SmartDashboard.putString("Drivebase mode", "Teleop");
     double xVelocity   = Math.pow(vX.getAsDouble(), 3);
     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
     double angVelocity = Math.pow(omega.getAsDouble(), 3);

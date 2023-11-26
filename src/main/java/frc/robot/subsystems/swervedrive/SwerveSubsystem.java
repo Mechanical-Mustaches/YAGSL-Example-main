@@ -9,25 +9,17 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.LimelightHelpers;
-
 import java.io.File;
-import java.util.List;
-import java.util.Map;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveControllerConfiguration;
@@ -48,7 +40,6 @@ public class SwerveSubsystem extends SubsystemBase
    * The auto builder for PathPlanner, there can only ever be one created so we save it just incase we generate multiple
    * paths with events.
    */
-  private       SwerveAutoBuilder autoBuilder = null;
   private static AprilTagFieldLayout aprilTagField = null;
   private PathPlannerTrajectory path;
 
@@ -109,7 +100,6 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void simulationPeriodic()
   {
-    System.out.println("No limelight configration, running simulation");
   }
 
   /**
@@ -288,9 +278,9 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void addFakeVisionReading()
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(10, 5, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
+    swerveDrive.addVisionMeasurement(new Pose2d(10, 6.74, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
   }
-  public void addVisionReading(double X, double Y, double Yaw)
+  public void addVisionReading(double X, double Y)
   {
     swerveDrive.resetOdometry(new Pose2d(X, Y, this.getHeading()));
   }

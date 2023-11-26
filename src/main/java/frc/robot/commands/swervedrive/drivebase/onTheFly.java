@@ -4,57 +4,52 @@
 
 package frc.robot.commands.swervedrive.drivebase;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.swervedrive.auto.FollowTrajectory;
+import frc.robot.commands.swervedrive.auto.Autos;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 /**
  * An example command that uses an example subsystem.
  */
 public class onTheFly extends CommandBase {
-  private SwerveSubsystem swerve;
-  private PathPlannerTrajectory path = null;
-  private Rotation2d rotation;
-  private Rotation2d holonomic;
-  private Translation2d offset;
-  private int id;
-  private static AprilTagFieldLayout aprilTagField = null;
+    private final SwerveSubsystem drivebase;
+    private final int id;
+    private final Rotation2d rotation;
+    private final Rotation2d holonomicRotation;
+    private final Translation2d offset;
 
-  public onTheFly(SwerveSubsystem swerve, Rotation2d rotation, Rotation2d holonomic, Translation2d offset, int id) {
-    this.swerve = swerve;
-    this.rotation = rotation;
-    this.holonomic = holonomic;
-    this.offset = offset;
-    this.id = id;
-  }
+    public onTheFly(SwerveSubsystem drivebase, int id, Rotation2d rotation,
+                                  Rotation2d holonomicRotation, Translation2d offset) {
+        this.drivebase = drivebase;
+        this.id = id;
+        this.rotation = rotation;
+        this.holonomicRotation = holonomicRotation;
+        this.offset = offset;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    path = swerve.createPath(id, rotation, holonomic, offset);
-    System.out.println("pathcreated");
-    new SequentialCommandGroup(new FollowTrajectory(swerve, path, false));
-  }
+        addRequirements(this.drivebase);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+    @Override
+    public void initialize() {
+        //drivebase.addFakeVisionReading();
+    }
 
-  }
+    @Override
+    public void execute() {
+        SmartDashboard.putString("Drivebase mode", "On The Fly");
+        Pose2d currentPose = drivebase.getPose();
+        Rotation2d heading = new Rotation2d(drivebase.getFieldVelocity().vxMetersPerSecond, drivebase.getFieldVelocity().vyMetersPerSecond);
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
+        CommandBase command = Autos.driveToAprilTag(drivebase, id, rotation, holonomicRotation, offset, currentPose, heading);
+        command.schedule();
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

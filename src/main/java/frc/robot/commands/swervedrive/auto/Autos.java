@@ -16,7 +16,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -27,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public final class Autos
+public class Autos extends CommandBase
 {
   private static AprilTagFieldLayout aprilTagField = null;
 
@@ -79,8 +78,8 @@ public final class Autos
    * @param offset            Offset from the April Tag.
    * @return {@link FollowTrajectory} command. May return null if cannot load field.
    */
-  public static CommandBase driveToAprilTag(SwerveSubsystem drivebase, int id, Rotation2d rotation,
-                                            Rotation2d holonomicRotation, Translation2d offset)
+  public static CommandBase driveToAprilTag(SwerveSubsystem drivebase, int id, Rotation2d rotation, Rotation2d holonomicRotation, Translation2d offset, 
+                                            Pose2d currentPose, Rotation2d heading)
   {
     if (aprilTagField == null)
     {
@@ -92,9 +91,8 @@ public final class Autos
         return null;
       }
     }
-    PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(4, 4), false,
-                                                          new PathPoint(new Translation2d(10, 5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(90), 4),
-                                                          //PathPoint.fromCurrentHolonomicState(drivebase.getPose(),drivebase.getRobotVelocity()),
+    PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(4.2, 6), false,
+                                                          new PathPoint(currentPose.getTranslation(), heading, currentPose.getRotation()),
                                                           new PathPoint(aprilTagField.getTagPose(id).get()
                                                                                      .getTranslation()
                                                                                      .toTranslation2d().plus(offset),
