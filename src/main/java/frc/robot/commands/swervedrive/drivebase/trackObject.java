@@ -11,7 +11,7 @@ import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveController;
 
-public class aprilRotation extends CommandBase {
+public class trackObject extends CommandBase {
 
   private SwerveSubsystem drivebase;
   private PIDController controllerR;
@@ -22,7 +22,7 @@ public class aprilRotation extends CommandBase {
   private boolean isOpenLoop;
   private SwerveController controller;
 
-  public aprilRotation(SwerveSubsystem drivebase, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier omega,
+  public trackObject(SwerveSubsystem drivebase, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier omega,
       BooleanSupplier driveMode, boolean isOpenLoop) {
     this.vX = vX;
     this.vY = vY;
@@ -39,14 +39,14 @@ public class aprilRotation extends CommandBase {
 
   @Override
   public void initialize() {
-      LimelightHelpers.setPipelineIndex("limelight", 0);
-      SmartDashboard.putString("Drivebase mode", "april");
+      LimelightHelpers.setPipelineIndex("limelight", 1);
+      SmartDashboard.putString("Drivebase mode", "Object Tracking");
       SmartDashboard.putBoolean("seen", false);
+
   }
 
   @Override
   public void execute() {
-
     double xVelocity = Math.pow(vX.getAsDouble(), 3);
     double yVelocity = Math.pow(vY.getAsDouble(), 3);
     double angVelocity = Math.pow(omega.getAsDouble(), 3);

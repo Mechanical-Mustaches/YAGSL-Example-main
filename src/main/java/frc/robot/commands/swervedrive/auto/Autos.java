@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -34,20 +35,6 @@ public class Autos extends CommandBase
   {
     throw new UnsupportedOperationException("This is a utility class!");
   }
-
-  //Example on the fly path, WIP for limelight integration
-  public static CommandBase exampleAuto(SwerveSubsystem swerve)
-  {
-    PathPlannerTrajectory path;
-    Transform2d other = new Transform2d(new Pose2d(0, 0, Rotation2d.fromDegrees(0)), new Pose2d(1, 1, Rotation2d.fromDegrees(0)));
-      path = PathPlanner.generatePath(
-          new PathConstraints(4, 3),
-          PathPoint.fromCurrentHolonomicState(swerve.getPose(),swerve.getRobotVelocity()),
-          new PathPoint((swerve.getPose().transformBy(other)).getTranslation(), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0))
-          );
-    return Commands.sequence(new FollowTrajectory(swerve, path, true));
-  }
-
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){
     List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 3));
@@ -79,7 +66,7 @@ public class Autos extends CommandBase
    * @return {@link FollowTrajectory} command. May return null if cannot load field.
    */
   public static CommandBase driveToAprilTag(SwerveSubsystem drivebase, int id, Rotation2d rotation, Rotation2d holonomicRotation, Translation2d offset, 
-                                            Pose2d currentPose, Rotation2d heading)
+                                            Pose2d currentPose, ChassisSpeeds speed)
   {
     if (aprilTagField == null)
     {
@@ -92,11 +79,9 @@ public class Autos extends CommandBase
       }
     }
     PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(4.2, 6), false,
-                                                          new PathPoint(currentPose.getTranslation(), heading, currentPose.getRotation()),
-                                                          new PathPoint(aprilTagField.getTagPose(id).get()
-                                                                                     .getTranslation()
-                                                                                     .toTranslation2d().plus(offset),
-                                                                        rotation, holonomicRotation));
+                                                          PathPoint.fromCurrentHolonomicState(currentPose,speed),
+                                                          new PathPoint(new Translation2d(1, 1), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
+                                                          //new PathPoint(aprilTagField.getTagPose(id).get().getTranslation().toTranslation2d().plus(offset), rotation, holonomicRotation));
     return Commands.sequence(new FollowTrajectory(drivebase, path, false));
   }
 }

@@ -7,8 +7,10 @@ package frc.robot.commands.swervedrive.drivebase;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.commands.swervedrive.auto.Autos;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -35,16 +37,17 @@ public class onTheFly extends CommandBase {
 
     @Override
     public void initialize() {
-        //drivebase.addFakeVisionReading();
+        LimelightHelpers.setPipelineIndex("limelight", 0);
+        SmartDashboard.putString("Drivebase mode", "On The Fly");
     }
 
     @Override
     public void execute() {
-        SmartDashboard.putString("Drivebase mode", "On The Fly");
+        
         Pose2d currentPose = drivebase.getPose();
-        Rotation2d heading = new Rotation2d(drivebase.getFieldVelocity().vxMetersPerSecond, drivebase.getFieldVelocity().vyMetersPerSecond);
+        ChassisSpeeds speed = drivebase.getRobotVelocity();
 
-        CommandBase command = Autos.driveToAprilTag(drivebase, id, rotation, holonomicRotation, offset, currentPose, heading);
+        CommandBase command = Autos.driveToAprilTag(drivebase, id, rotation, holonomicRotation, offset, currentPose, speed);
         command.schedule();
     }
 
