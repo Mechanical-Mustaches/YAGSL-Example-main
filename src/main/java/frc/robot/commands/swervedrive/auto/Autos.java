@@ -78,7 +78,7 @@ public class Autos extends CommandBase
         return null;
       }
     }
-    PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(4.2, 6), false,
+    PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(1, 1), false,
                                                           PathPoint.fromCurrentHolonomicState(currentPose,speed),
                                                           new PathPoint(new Translation2d(1, 1), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(0)));
                                                           //new PathPoint(aprilTagField.getTagPose(id).get().getTranslation().toTranslation2d().plus(offset), rotation, holonomicRotation));
