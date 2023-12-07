@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.auto.*;
 import frc.robot.commands.swervedrive.drivebase.onTheFly;
+import frc.robot.commands.swervedrive.drivebase.trackObject;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.aprilRotation;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -35,20 +36,12 @@ public class RobotContainer
 {
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
-  // CommandJoystick rotationController = new CommandJoystick(1);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  // CommandJoystick driverController = new CommandJoystick(1); // Need to delete 
-  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
+
   XboxController driverXbox = new XboxController(0);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer()
   {
-    // Configure the trigger bindings
     configureBindings();
     initializeAutoChooser();
  
@@ -68,13 +61,6 @@ public class RobotContainer
     
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
-   * named factories in {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
-   */
   private void configureBindings()
   {
     // -- Key bindings -- 
@@ -82,22 +68,20 @@ public class RobotContainer
 
     new JoystickButton(driverXbox, 5).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
     
-    new JoystickButton(driverXbox, 6).whileTrue(
+    new JoystickButton(driverXbox, 7).whileTrue(
       new RepeatCommand(new aprilRotation(
         drivebase,
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(4), () -> true, false)
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRawAxis(4), () -> true, false, 0)
     ));
-
-    new JoystickButton(driverXbox, 8).onTrue(new onTheFly(
-    drivebase,
-    4,
-    Rotation2d.fromDegrees(0),
-    Rotation2d.fromDegrees(0),
-    new Translation2d(-1, 0)
+    new JoystickButton(driverXbox, 8).whileTrue(
+      new RepeatCommand(new trackObject(
+        drivebase,
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRawAxis(4), () -> true, false, 1)
     ));
-
   }
 
 

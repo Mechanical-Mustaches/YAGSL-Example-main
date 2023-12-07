@@ -21,9 +21,10 @@ public class trackObject extends CommandBase {
   private BooleanSupplier driveMode;
   private boolean isOpenLoop;
   private SwerveController controller;
+  private int pipelineIndex;
 
   public trackObject(SwerveSubsystem drivebase, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier omega,
-      BooleanSupplier driveMode, boolean isOpenLoop) {
+      BooleanSupplier driveMode, boolean isOpenLoop, int pipelineIndex) {
     this.vX = vX;
     this.vY = vY;
     this.omega = omega;
@@ -31,6 +32,7 @@ public class trackObject extends CommandBase {
     this.isOpenLoop = isOpenLoop;
     this.controller = drivebase.getSwerveController();
     this.drivebase = drivebase;
+    this.pipelineIndex = pipelineIndex;
 
     addRequirements(this.drivebase);
 
@@ -39,8 +41,8 @@ public class trackObject extends CommandBase {
 
   @Override
   public void initialize() {
-      LimelightHelpers.setPipelineIndex("limelight", 1);
-      SmartDashboard.putString("Drivebase mode", "Object Tracking");
+      LimelightHelpers.setPipelineIndex("limelight", pipelineIndex);
+      SmartDashboard.putString("Drivebase mode", "Pipeline: " + pipelineIndex);
       SmartDashboard.putBoolean("seen", false);
 
   }
@@ -58,14 +60,14 @@ public class trackObject extends CommandBase {
       SmartDashboard.putBoolean("seen", true);
       double rotation = controllerR.calculate(LimelightHelpers.getTX("limelight"), 0.0);
 
-      drivebase.drive(new Translation2d(xVelocity * controller.config.maxSpeed, yVelocity * controller.config.maxSpeed),
+      drivebase.drive(new Translation2d(Math.abs(xVelocity * controller.config.maxSpeed), 0),
           3*rotation,
-          driveMode.getAsBoolean(), isOpenLoop);
+          false, isOpenLoop);
     } else {
       SmartDashboard.putBoolean("seen", false);
-      drivebase.drive(new Translation2d(xVelocity * controller.config.maxSpeed, yVelocity * controller.config.maxSpeed),
+      drivebase.drive(new Translation2d(xVelocity * controller.config.maxSpeed,0),
           angVelocity * controller.config.maxAngularVelocity,
-          driveMode.getAsBoolean(), isOpenLoop);
+          false, isOpenLoop);
     }
   }
 

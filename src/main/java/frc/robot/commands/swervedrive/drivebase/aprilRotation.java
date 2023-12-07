@@ -21,9 +21,10 @@ public class aprilRotation extends CommandBase {
   private BooleanSupplier driveMode;
   private boolean isOpenLoop;
   private SwerveController controller;
+  private int pipelineIndex;
 
   public aprilRotation(SwerveSubsystem drivebase, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier omega,
-      BooleanSupplier driveMode, boolean isOpenLoop) {
+      BooleanSupplier driveMode, boolean isOpenLoop, int pipelineIndex) {
     this.vX = vX;
     this.vY = vY;
     this.omega = omega;
@@ -31,6 +32,7 @@ public class aprilRotation extends CommandBase {
     this.isOpenLoop = isOpenLoop;
     this.controller = drivebase.getSwerveController();
     this.drivebase = drivebase;
+    this.pipelineIndex = pipelineIndex;
 
     addRequirements(this.drivebase);
 
@@ -39,9 +41,10 @@ public class aprilRotation extends CommandBase {
 
   @Override
   public void initialize() {
-      LimelightHelpers.setPipelineIndex("limelight", 0);
-      SmartDashboard.putString("Drivebase mode", "april");
+      LimelightHelpers.setPipelineIndex("limelight", pipelineIndex);
+      SmartDashboard.putString("Drivebase mode", "Pipeline: " + pipelineIndex);
       SmartDashboard.putBoolean("seen", false);
+
   }
 
   @Override
