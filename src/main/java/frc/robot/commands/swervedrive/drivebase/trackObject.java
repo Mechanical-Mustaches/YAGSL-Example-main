@@ -19,16 +19,14 @@ public class trackObject extends CommandBase {
   private DoubleSupplier vY;
   private DoubleSupplier omega;
   private BooleanSupplier driveMode;
-  private boolean isOpenLoop;
   private SwerveController controller;
 
   public trackObject(SwerveSubsystem drivebase, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier omega,
-      BooleanSupplier driveMode, boolean isOpenLoop) {
+      BooleanSupplier driveMode) {
     this.vX = vX;
     this.vY = vY;
     this.omega = omega;
     this.driveMode = driveMode;
-    this.isOpenLoop = isOpenLoop;
     this.controller = drivebase.getSwerveController();
     this.drivebase = drivebase;
 
@@ -58,14 +56,14 @@ public class trackObject extends CommandBase {
       SmartDashboard.putBoolean("seen", true);
       double rotation = controllerR.calculate(LimelightHelpers.getTX("limelight"), 0.0);
 
-      drivebase.drive(new Translation2d(xVelocity * controller.config.maxSpeed, yVelocity * controller.config.maxSpeed),
+      drivebase.drive(new Translation2d(0.4 * drivebase.maximumSpeed, 0),
           3*rotation,
-          driveMode.getAsBoolean(), isOpenLoop);
+          false);
     } else {
       SmartDashboard.putBoolean("seen", false);
-      drivebase.drive(new Translation2d(xVelocity * controller.config.maxSpeed, yVelocity * controller.config.maxSpeed),
+      drivebase.drive(new Translation2d(0.4 * drivebase.maximumSpeed, 0),
           angVelocity * controller.config.maxAngularVelocity,
-          driveMode.getAsBoolean(), isOpenLoop);
+          false);
     }
   }
 

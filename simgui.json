@@ -47,6 +47,7 @@
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/Auto Selector": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Pigeon 2 [0]": "Gyro",
       "/SmartDashboard/Pigeon 2 [13]": "Gyro",
       "/SmartDashboard/Pigeon 2 [30]": "Gyro",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
@@ -74,6 +75,9 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "Auto Selector": {
+          "open": true
+        },
         "open": true,
         "swerve": {
           "open": true

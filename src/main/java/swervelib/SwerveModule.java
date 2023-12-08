@@ -44,6 +44,10 @@ public class SwerveModule
    */
   public  SimpleMotorFeedforward feedforward;
   /**
+   * Maximum speed of the drive motors in meters per second.
+   */
+  public  double                 maxSpeed;
+  /**
    * Last swerve module state applied.
    */
   public  SwerveModuleState      lastState;
@@ -66,8 +70,11 @@ public class SwerveModule
    *
    * @param moduleNumber        Module number for kinematics.
    * @param moduleConfiguration Module constants containing CAN ID's and offsets.
+   * @param driveFeedforward    Drive motor feedforward created by
+   *                            {@link SwerveMath#createDriveFeedforward(double, double, double)}.
    */
-  public SwerveModule(int moduleNumber, SwerveModuleConfiguration moduleConfiguration)
+  public SwerveModule(int moduleNumber, SwerveModuleConfiguration moduleConfiguration,
+                      SimpleMotorFeedforward driveFeedforward)
   {
     //    angle = 0;
     //    speed = 0;
@@ -78,7 +85,7 @@ public class SwerveModule
     angleOffset = moduleConfiguration.angleOffset;
 
     // Initialize Feedforward for drive motor.
-    feedforward = configuration.createDriveFeedforward();
+    feedforward = driveFeedforward;
 
     // Create motors from configuration and reset them to defaults.
     angleMotor = moduleConfiguration.angleMotor;
@@ -104,14 +111,14 @@ public class SwerveModule
     }
 
     // Config angle motor/controller
-    angleMotor.configureIntegratedEncoder(moduleConfiguration.getPositionEncoderConversion(false));
+    angleMotor.configureIntegratedEncoder(moduleConfiguration.conversionFactors.angle);
     angleMotor.configurePIDF(moduleConfiguration.anglePIDF);
     angleMotor.configurePIDWrapping(-180, 180);
     angleMotor.setInverted(moduleConfiguration.angleMotorInverted);
     angleMotor.setMotorBrake(false);
 
     // Config drive motor/controller
-    driveMotor.configureIntegratedEncoder(moduleConfiguration.getPositionEncoderConversion(true));
+    driveMotor.configureIntegratedEncoder(moduleConfiguration.conversionFactors.drive);
     driveMotor.configurePIDF(moduleConfiguration.velocityPIDF);
     driveMotor.setInverted(moduleConfiguration.driveMotorInverted);
     driveMotor.setMotorBrake(true);
@@ -126,6 +133,27 @@ public class SwerveModule
 
     lastState = getState();
   }
+
+  /**
+   * Set the voltage compensation for the swerve module motor.
+   *
+   * @param optimalVoltage Nominal voltage for operation to output to.
+   */
+  public void setAngleMotorVoltageCompensation(double optimalVoltage)
+  {
+    angleMotor.setVoltageCompensation(optimalVoltage);
+  }
+
+  /**
+   * Set the voltage compensation for the swerve module motor.
+   *
+   * @param optimalVoltage Nominal voltage for operation to output to.
+   */
+  public void setDriveMotorVoltageCompensation(double optimalVoltage)
+  {
+    driveMotor.setVoltageCompensation(optimalVoltage);
+  }
+
 
   /**
    * Queue synchronization of the integrated angle encoder with the absolute encoder.
@@ -157,7 +185,7 @@ public class SwerveModule
 
     if (isOpenLoop)
     {
-      double percentOutput = desiredState.speedMetersPerSecond / configuration.maxSpeed;
+      double percentOutput = desiredState.speedMetersPerSecond / maxSpeed;
       driveMotor.set(percentOutput);
     } else
     {
@@ -172,7 +200,7 @@ public class SwerveModule
     if (!force)
     {
       // Prevents module rotation if speed is less than 1%
-      SwerveMath.antiJitter(desiredState, lastState, Math.min(configuration.maxSpeed, 4));
+      SwerveMath.antiJitter(desiredState, lastState, Math.min(maxSpeed, 4));
     }
 
     if (SwerveDriveTelemetry.verbosity == TelemetryVerbosity.HIGH)
@@ -225,14 +253,12 @@ public class SwerveModule
   {
     double     velocity;
     Rotation2d azimuth;
-    double     omega;
     if (!SwerveDriveTelemetry.isSimulation)
     {
       velocity = driveMotor.getVelocity();
-      azimuth = Rotation2d.fromDegrees(angleMotor.getPosition());
-      omega = Math.toRadians(angleMotor.getVelocity());
-    } else    
-    { 
+      azimuth = Rotation2d.fromDegrees(getAbsolutePosition());
+    } else
+    {
       return simModule.getState();
     }
     return new SwerveModuleState(velocity, azimuth);
@@ -250,7 +276,7 @@ public class SwerveModule
     if (!SwerveDriveTelemetry.isSimulation)
     {
       position = driveMotor.getPosition();
-      azimuth = Rotation2d.fromDegrees(angleMotor.getPosition());
+      azimuth = Rotation2d.fromDegrees(getAbsolutePosition());
     } else
     {
       return simModule.getPosition();
@@ -311,6 +337,28 @@ public class SwerveModule
   }
 
   /**
+   * Set the conversion factor for the angle/azimuth motor controller.
+   *
+   * @param conversionFactor Angle motor conversion factor for PID, should be generated from
+   *                         {@link SwerveMath#calculateDegreesPerSteeringRotation(double, double)} or calculated.
+   */
+  public void setAngleMotorConversionFactor(double conversionFactor)
+  {
+    angleMotor.configureIntegratedEncoder(conversionFactor);
+  }
+
+  /**
+   * Set the conversion factor for the drive motor controller.
+   *
+   * @param conversionFactor Drive motor conversion factor for PID, should be generated from
+   *                         {@link SwerveMath#calculateMetersPerRotation(double, double, double)} or calculated.
+   */
+  public void setDriveMotorConversionFactor(double conversionFactor)
+  {
+    driveMotor.configureIntegratedEncoder(conversionFactor);
+  }
+
+  /**
    * Get the angle {@link SwerveMotor} for the {@link SwerveModule}.
    *
    * @return {@link SwerveMotor} for the angle/steering motor of the module.
@@ -338,5 +386,18 @@ public class SwerveModule
   public SwerveModuleConfiguration getConfiguration()
   {
     return configuration;
+  }
+
+  /**
+   * Get if the last Absolute Encoder had a read issue, such as it does not exist.
+   *
+   * @return If the last Absolute Encoder had a read issue, or absolute encoder does not exist.
+   */
+  public boolean getAbsoluteEncoderReadIssue()
+  {
+    if(absoluteEncoder == null)
+      return true;
+    else
+      return absoluteEncoder.readingError;
   }
 }

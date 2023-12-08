@@ -7,27 +7,29 @@ package frc.robot.subsystems.swervedrive;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.PIDConstants;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.File;
+import java.util.List;
+import java.util.Map;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
+import swervelib.math.SwerveMath;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
-import java.lang.Math;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -37,11 +39,14 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private final SwerveDrive       swerveDrive;
   /**
+   * Maximum speed of the robot in meters per second, used to limit acceleration.
+   */
+  public  double            maximumSpeed = Units.feetToMeters(14.5);
+  /**
    * The auto builder for PathPlanner, there can only ever be one created so we save it just incase we generate multiple
    * paths with events.
    */
-  private static AprilTagFieldLayout aprilTagField = null;
-  private PathPlannerTrajectory path;
+  private SwerveAutoBuilder autoBuilder  = null;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -50,15 +55,32 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public SwerveSubsystem(File directory)
   {
+    // Angle conversion factor is 360 / (GEAR RATIO * ENCODER RESOLUTION)
+    //  In this case the gear ratio is 12.8 motor revolutions per wheel rotation.
+    //  The encoder resolution per motor revolution is 1 per motor revolution.
+    double angleConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(12.8, 1);
+    // Motor conversion factor is (PI * WHEEL DIAMETER IN METERS) / (GEAR RATIO * ENCODER RESOLUTION).
+    //  In this case the wheel diameter is 4 inches, which must be converted to meters to get meters/second.
+    //  The gear ratio is 6.75 motor revolutions per wheel rotation.
+    //  The encoder resolution per motor revolution is 1 per motor revolution.
+    double driveConversionFactor = SwerveMath.calculateMetersPerRotation(Units.inchesToMeters(4), 6.75, 1);
+    System.out.println("\"conversionFactor\": {");
+    System.out.println("\t\"angle\": " + angleConversionFactor + ",");
+    System.out.println("\t\"drive\": " + driveConversionFactor);
+    System.out.println("}");
+
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try
     {
-      swerveDrive = new SwerveParser(directory).createSwerveDrive();
+      swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
+      // Alternative method if you don't want to supply the conversion factor via JSON files.
+      // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
     {
       throw new RuntimeException(e);
     }
+    swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
   }
 
   /**
@@ -69,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg)
   {
-    swerveDrive = new SwerveDrive(driveCfg, controllerCfg);
+    swerveDrive = new SwerveDrive(driveCfg, controllerCfg, maximumSpeed);
   }
 
   /**
@@ -85,11 +107,33 @@ public class SwerveSubsystem extends SubsystemBase
    * @param rotation      Robot angular rate, in radians per second. CCW positive.  Unaffected by field/robot
    *                      relativity.
    * @param fieldRelative Drive mode.  True for field-relative, false for robot-relative.
-   * @param isOpenLoop    Whether to use closed-loop velocity control.  Set to true to disable closed-loop.
    */
-  public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
+  public void drive(Translation2d translation, double rotation, boolean fieldRelative)
   {
-    swerveDrive.drive(translation, rotation, fieldRelative, isOpenLoop);
+    swerveDrive.drive(translation,
+                      rotation,
+                      fieldRelative,
+                      false); // Open loop is disabled since it shouldn't be used most of the time.
+  }
+
+  /**
+   * Drive the robot given a chassis field oriented velocity.
+   *
+   * @param velocity Velocity according to the field.
+   */
+  public void driveFieldOriented(ChassisSpeeds velocity)
+  {
+    swerveDrive.driveFieldOriented(velocity);
+  }
+
+  /**
+   * Drive according to the chassis robot oriented velocity.
+   *
+   * @param velocity Robot oriented {@link ChassisSpeeds}
+   */
+  public void drive(ChassisSpeeds velocity)
+  {
+    swerveDrive.drive(velocity);
   }
 
   @Override
@@ -133,7 +177,6 @@ public class SwerveSubsystem extends SubsystemBase
   {
     return swerveDrive.getPose();
   }
-
 
   /**
    * Set chassis speeds with closed-loop velocity control.
@@ -197,7 +240,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
     xInput = Math.pow(xInput, 3);
     yInput = Math.pow(yInput, 3);
-    return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, headingX, headingY, getHeading().getRadians());
+    return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, headingX, headingY, getHeading().getRadians(), maximumSpeed);  
   }
 
   /**
@@ -212,7 +255,11 @@ public class SwerveSubsystem extends SubsystemBase
   {
     xInput = Math.pow(xInput, 3);
     yInput = Math.pow(yInput, 3);
-    return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getHeading().getRadians());
+    return swerveDrive.swerveController.getTargetSpeeds(xInput,
+                                                        yInput,
+                                                        angle.getRadians(),
+                                                        getHeading().getRadians(),
+                                                        maximumSpeed);
   }
 
   /**
@@ -278,14 +325,9 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void addFakeVisionReading()
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(10, 6.74, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
-  }
-  public void addVisionReading(double X, double Y)
-  {
-    swerveDrive.resetOdometry(new Pose2d(X, Y, this.getHeading()));
+    swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
-  
   /**
    * Factory to fetch the PathPlanner command to follow the defined path.
    *
@@ -299,21 +341,32 @@ public class SwerveSubsystem extends SubsystemBase
    * @param useAllianceColor Automatically transform the path based on alliance color.
    * @return PathPlanner command to follow the given path.
    */
-  public PathPlannerTrajectory createPath(int id, Rotation2d rotation, Rotation2d holonomic, Translation2d offset)
+  public Command creatPathPlannerCommand(String path, PathConstraints constraints, Map<String, Command> eventMap,
+                                         PIDConstants translation, PIDConstants rotation, boolean useAllianceColor)
   {
-      if (aprilTagField == null) {
-        try {
-          aprilTagField = AprilTagFields.kDefaultField.loadAprilTagLayoutField();
-        } catch (Exception ignored) {
-        }
-      }
-      path = PathPlanner.generatePath(new PathConstraints(4, 4), false,
-      new PathPoint(new Translation2d(10, 5), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(90)),
-      new PathPoint(new Translation2d(10, 10), Rotation2d.fromDegrees(0), Rotation2d.fromDegrees(90)));
-          //PathPoint.fromCurrentHolonomicState(this.getPose(),this.getRobotVelocity()),
-          //new PathPoint(aprilTagField.getTagPose(id).get()
-            //  .getTranslation()
-              //.toTranslation2d().plus(offset), rotation, holonomic));
-    return path;
+    List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup(path, constraints);
+//    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+//      Pose2d supplier,
+//      Pose2d consumer- used to reset odometry at the beginning of auto,
+//      PID constants to correct for translation error (used to create the X and Y PID controllers),
+//      PID constants to correct for rotation error (used to create the rotation controller),
+//      Module states consumer used to output to the drive subsystem,
+//      Should the path be automatically mirrored depending on alliance color. Optional- defaults to true
+//   )
+    if (autoBuilder == null)
+    {
+      autoBuilder = new SwerveAutoBuilder(
+          swerveDrive::getPose,
+          swerveDrive::resetOdometry,
+          translation,
+          rotation,
+          swerveDrive::setChassisSpeeds,
+          eventMap,
+          useAllianceColor,
+          this
+      );
+    }
+
+    return autoBuilder.fullAuto(pathGroup);
   }
 }

@@ -57,13 +57,13 @@ public class RobotContainer
       drivebase,
        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-       () -> driverXbox.getRawAxis(4), () -> true, false, false);
+       () -> driverXbox.getRawAxis(4), () -> true);
 
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
         () -> -MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRawAxis(4), () -> true, false, false);
+        () -> -driverXbox.getRawAxis(4), () -> true);
 
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedFieldRel : simClosedFieldRel);
     
@@ -88,17 +88,16 @@ public class RobotContainer
         drivebase,
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(4), () -> true, false)
+        () -> driverXbox.getRawAxis(4), () -> true)
     ));
 
-    new JoystickButton(driverXbox, 8).onTrue(new onTheFly(
-    drivebase,
-    4,
-    Rotation2d.fromDegrees(0),
-    Rotation2d.fromDegrees(0),
-    new Translation2d(-1, 0)
+    new JoystickButton(driverXbox, 7).whileTrue(
+      new RepeatCommand(new trackObject(
+        drivebase,
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverXbox.getRawAxis(4), () -> true)
     ));
-
   }
 
 
