@@ -36,7 +36,7 @@ public class Autos extends CommandBase
   }
 
   public static CommandBase autoBuilderBase(SwerveSubsystem aBuilder, String pathName){
-    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4, 3));
+    List<PathPlannerTrajectory> master = PathPlanner.loadPathGroup(pathName, new PathConstraints(4.5, 4));
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("intakeout", new PrintCommand("Intakeout"));
     eventMap.put("balance", new AutoBalanceCommand(aBuilder));

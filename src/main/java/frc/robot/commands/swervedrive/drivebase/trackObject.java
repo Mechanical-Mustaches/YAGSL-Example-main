@@ -62,7 +62,7 @@ public class trackObject extends CommandBase {
     } else {
       SmartDashboard.putBoolean("seen", false);
       drivebase.drive(new Translation2d(0.4 * drivebase.maximumSpeed, 0),
-          angVelocity * controller.config.maxAngularVelocity,
+          0,
           false);
     }
   }

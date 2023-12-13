@@ -47,7 +47,6 @@ public class TeleopDrive extends CommandBase
   @Override
   public void initialize()
   {
-    SmartDashboard.putString("Drivebase mode","Teleop");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
