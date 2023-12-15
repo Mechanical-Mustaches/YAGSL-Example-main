@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import swervelib.SwerveController;
 
 public class trackObject extends CommandBase {
 
@@ -18,16 +17,12 @@ public class trackObject extends CommandBase {
   private DoubleSupplier vX;
   private DoubleSupplier vY;
   private DoubleSupplier omega;
-  private BooleanSupplier driveMode;
-  private SwerveController controller;
 
   public trackObject(SwerveSubsystem drivebase, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier omega,
       BooleanSupplier driveMode) {
     this.vX = vX;
     this.vY = vY;
     this.omega = omega;
-    this.driveMode = driveMode;
-    this.controller = drivebase.getSwerveController();
     this.drivebase = drivebase;
 
     addRequirements(this.drivebase);
