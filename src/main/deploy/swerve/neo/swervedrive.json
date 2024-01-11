@@ -3,7 +3,7 @@
   "optimalVoltage": 12,
   "imu": {
     "type": "pigeon2",
-    "id": 30,
+    "id": 40,
     "canbus": ""
   },
   "invertedIMU": false,

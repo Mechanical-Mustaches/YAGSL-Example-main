@@ -9,6 +9,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import com.pathplanner.lib.auto.PIDConstants;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,6 +19,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.io.File;
 import swervelib.SwerveController;
@@ -42,6 +44,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private static AprilTagFieldLayout aprilTagField = null;
   private PathPlannerTrajectory path;
+
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -273,13 +276,6 @@ public class SwerveSubsystem extends SubsystemBase
     return swerveDrive.getPitch();
   }
 
-  /**
-   * Add a fake vision reading for testing purposes.
-   */
-  public void addFakeVisionReading()
-  {
-    swerveDrive.addVisionMeasurement(new Pose2d(10, 6.74, Rotation2d.fromDegrees(90)), Timer.getFPGATimestamp(), false, 1);
-  }
   public void addVisionReading(double X, double Y)
   {
     swerveDrive.resetOdometry(new Pose2d(X, Y, this.getHeading()));

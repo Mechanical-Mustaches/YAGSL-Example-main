@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.commands.swervedrive.auto.Autos;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -40,12 +41,15 @@ public class onTheFly extends CommandBase {
 
     @Override
     public void execute() {
+        if(LimelightHelpers.getTV("limelight")) {
         SmartDashboard.putString("Drivebase mode", "On The Fly");
         Pose2d currentPose = drivebase.getPose();
         Rotation2d heading = new Rotation2d(drivebase.getFieldVelocity().vxMetersPerSecond, drivebase.getFieldVelocity().vyMetersPerSecond);
+        drivebase.addVisionReading(LimelightHelpers.getBotPose("limelight")[0]+8.265, LimelightHelpers.getBotPose("limelight")[1]+4);
 
         CommandBase command = Autos.driveToAprilTag(drivebase, id, rotation, holonomicRotation, offset, currentPose, heading);
         command.schedule();
+        }
     }
 
     @Override

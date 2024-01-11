@@ -91,7 +91,7 @@ public class Autos extends CommandBase
         return null;
       }
     }
-    PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(4.2, 6), false,
+    PathPlannerTrajectory path = PathPlanner.generatePath(new PathConstraints(0.5, 0.5), false,
                                                           new PathPoint(currentPose.getTranslation(), heading, currentPose.getRotation()),
                                                           new PathPoint(aprilTagField.getTagPose(id).get()
                                                                                      .getTranslation()
